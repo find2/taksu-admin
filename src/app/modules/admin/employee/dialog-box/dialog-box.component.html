@@ -1,0 +1,317 @@
+<ng-container *transloco="let t">
+    <!-- dialog-box.component.html -->
+    <h1 mat-dialog-title>
+        <strong
+            >{{ action == "Add" ? t("Add") : t("Update") }}
+            {{ t("Employee Data") }}</strong
+        >
+    </h1>
+    <mat-dialog-content>
+        <div *ngIf="action == 'Update'">
+            <form
+                class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden"
+                [formGroup]="employeeForm"
+                #formDirective="ngForm"
+                #employee="ngForm"
+                (ngSubmit)="doAction(formDirective)"
+                id="employeeFormSubmit"
+            >
+                <div class="flex flex-col gt-xs:flex-row">
+                    <mat-form-field class="flex-auto gt-xs:pl-3">
+                        <mat-label>
+                            {{ t("Name") }}
+                        </mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="name"
+                            name="name"
+                        />
+                        <mat-error
+                            *ngIf="nameEmployee.errors && nameEmployee.touched"
+                        >
+                            {{
+                                t(
+                                    "The name field must be at least 3 character long and required"
+                                )
+                            }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="flex">
+                    <mat-form-field class="fuse-mat-textarea flex-auto">
+                        <mat-label>
+                            {{ t("Address") }}
+                        </mat-label>
+                        <textarea
+                            matInput
+                            [rows]="3"
+                            matTextareaAutosize
+                            matInput
+                            formControlName="address"
+                            name="address"
+                        ></textarea>
+                        <mat-error
+                            *ngIf="
+                                addressEmployee.errors &&
+                                addressEmployee.touched
+                            "
+                            >
+                            {{
+                                t(
+                                    "The address field is required"
+                                )
+                            }}
+                            </mat-error
+                        >
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col gt-md:flex-row">
+                    <mat-form-field class="flex-auto gt-md:pr-3">
+                        <mat-label>
+                            {{ t("Position") }}
+                        </mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="position"
+                            name="position"
+                        />
+                        <mat-error
+                            *ngIf="
+                                positionEmployee.errors &&
+                                positionEmployee.touched
+                            "
+                            >
+                            {{
+                                t(
+                                    "The position field is required"
+                                )
+                            }}
+                            </mat-error
+                        >
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col gt-md:flex-row">
+                    <mat-form-field class="flex-auto gt-md:pr-3">
+                        <mat-label>
+                            {{ t("Email") }}
+                        </mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="email"
+                            name="email"
+                        />
+                        <mat-error
+                            *ngIf="
+                                emailEmployee.errors && emailEmployee.touched
+                            "
+                            >
+                            {{
+                                t(
+                                    "The email field is invalid"
+                                )
+                            }}
+                            </mat-error
+                        >
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col gt-md:flex-row">
+                    <mat-label>
+                        {{ t("Profile Picture") }}
+                        <span
+                            *ngIf="isValidPicture == false"
+                            class="text-red-700"
+                            >*</span
+                        >
+                        <span
+                            *ngIf="
+                                isValidPicture == true || isValidPicture == null
+                            "
+                            >*</span
+                        ></mat-label
+                    >
+                    <input
+                        type="file"
+                        id="filePicker"
+                        (change)="handleFileSelect($event)"
+                        #myInput
+                    />
+                    <mat-error *ngIf="isValidPicture == false">
+                        <small class="font-medium"
+                            >
+                            {{ t("The picture field is required") }}
+                            </small
+                        >
+                    </mat-error>
+                </div>
+            </form>
+            <div class="mt-10 flex justify-center">
+                <mat-dialog-actions>
+                    <button
+                        mat-button
+                        type=""
+                        (click)="closeDialog()"
+                        mat-stroked-button
+                    >
+                        {{ t("Cancel") }}
+                    </button>
+                    <button
+                        mat-flat-button
+                        color="primary"
+                        type="submit"
+                        form="employeeFormSubmit"
+                    >
+                        {{ t("Submit") }}
+                    </button>
+                </mat-dialog-actions>
+            </div>
+        </div>
+        <form
+            *ngIf="action == 'Add'"
+            class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden"
+            [formGroup]="employeeForm"
+            #formDirective="ngForm"
+            #employee="ngForm"
+            (ngSubmit)="doAction(formDirective)"
+        >
+            <div class="flex flex-col gt-xs:flex-row">
+                <mat-form-field class="flex-auto gt-xs:pl-3">
+                    <mat-label>
+                        {{ t("Name") }}
+                    </mat-label>
+                    <input
+                        matInput
+                        type="text"
+                        formControlName="name"
+                        name="name"
+                    />
+                    <mat-error
+                        *ngIf="nameEmployee.errors && nameEmployee.touched"
+                    >
+                        {{
+                            t(
+                                "The name field must be at least 3 character long and required"
+                            )
+                        }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="flex">
+                <mat-form-field class="fuse-mat-textarea flex-auto">
+                    <mat-label>
+                        {{ t("Address") }}
+                    </mat-label>
+                    <textarea
+                        matInput
+                        [rows]="3"
+                        matTextareaAutosize
+                        matInput
+                        formControlName="address"
+                        name="address"
+                    ></textarea>
+                    <mat-error
+                        *ngIf="
+                            addressEmployee.errors && addressEmployee.touched
+                        "
+                        >
+                        {{
+                            t(
+                                "The address field is required"
+                            )
+                        }}
+                        </mat-error
+                    >
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col gt-md:flex-row">
+                <mat-form-field class="flex-auto gt-md:pr-3">
+                    <mat-label>
+                        {{ t("Position") }}
+                    </mat-label>
+                    <input
+                        matInput
+                        type="text"
+                        formControlName="position"
+                        name="position"
+                    />
+                    <mat-error
+                        *ngIf="
+                            positionEmployee.errors && positionEmployee.touched
+                        "
+                        >
+                        {{
+                            t(
+                                "The position field is required"
+                            )
+                        }}
+                        </mat-error
+                    >
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col gt-md:flex-row">
+                <mat-form-field class="flex-auto gt-md:pr-3">
+                    <mat-label>
+                        {{ t("Email") }}
+                    </mat-label>
+                    <input
+                        matInput
+                        type="text"
+                        formControlName="email"
+                        name="email"
+                    />
+                    <mat-error
+                        *ngIf="emailEmployee.errors && emailEmployee.touched"
+                        >
+                        {{
+                            t(
+                                "The email field is invalid"
+                            )
+                        }}
+                        </mat-error
+                    >
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col gt-md:flex-row">
+                <mat-label>
+                    {{ t("Profile Picture") }}
+                    <span *ngIf="isValidPicture == false" class="text-red-700"
+                        >*</span
+                    >
+                    <span
+                        *ngIf="isValidPicture == true || isValidPicture == null"
+                        >*</span
+                    ></mat-label
+                >
+                <input
+                    type="file"
+                    id="filePicker"
+                    (change)="handleFileSelect($event)"
+                    #myInput
+                />
+                <mat-error *ngIf="isValidPicture == false">
+                    <small class="font-medium"
+                        >
+                        {{ t("The picture field is required") }}
+                        </small
+                    >
+                </mat-error>
+            </div>
+            <div class="mt-10 flex justify-center">
+                <mat-dialog-actions>
+                    <button
+                        mat-button
+                        (click)="closeDialog()"
+                        mat-stroked-button
+                    >
+                        {{ t("Cancel") }}
+                    </button>
+                    <button mat-flat-button color="primary" type="submit">
+                        {{ t("Submit") }}
+                    </button>
+                </mat-dialog-actions>
+            </div>
+        </form>
+    </mat-dialog-content>
+</ng-container>

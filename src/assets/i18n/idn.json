@@ -1,0 +1,67 @@
+{
+    "welcome-back": "Selamat datang kembali",
+    "Project": "Proyek",
+    "Analytics": "Analisis",
+
+    "ID": "ID",
+    "Asset": "Aset",
+    "Add Asset": "Tambah Aset",
+    "Asset Data": "Data Aset",
+    "Asset Name": "Nama Aset",
+    "Asset Code": "Kode Aset",
+    "Date Registered": "Tanggal Terdaftar",
+    "Model": "Model",
+    "Serial Number": "Nomor Seri",
+    "Assign To": "Ditugaskan Kepada",
+    "Status": "Status",
+    "The asset code field is required": "Kolom kode aset wajib diisi",
+    "The date registered field is required": "Kolom tanggal terdaftar wajib diisi",
+    "The model field is required": "Kolom model wajib diisi",
+    "The serial number field is required": "Kolom nomor seri wajib diisi", 
+    "The status field is required": "Kolom status wajib diisi",
+    "Select Employee": "Pilih Karyawan",
+    "The assign to field is required": "Kolom ditugaskan kepada wajib diisi",
+    "Unassigned": "Belum Ditugaskan",
+    "Assigned": "Ditugaskan",
+    "Damaged": "Rusak",
+
+    "Settings": "Pengaturan",
+    "Logout": "Keluar",
+    "Dashboard": "Dasbor",
+
+    "Employee": "Karyawan",
+    "Add Employee": "Tambah Karyawan",
+    "Name": "Nama",
+    "Email": "Email",
+    "Position": "Posisi",
+    "Address": "Alamat",
+    "Phone": "Telepon",
+    "Picture": "Gambar",
+    "Submit": "Kirim",
+    "Cancel": "Batal",
+    "Edit": "Edit",
+    "Delete": "Hapus",
+    "Search": "Cari",
+    "Actions" : "Aksi",
+    "Employee Data": "Data Karyawan",
+    "Add" : "Tambah",
+    "Update" : "Perbarui",
+    "Profile Picture": "Gambar Profil",
+
+    "Are you sure you want to delete this employee?": "Apakah Anda yakin ingin menghapus karyawan ini?",
+
+    "Employee successfully deleted": "Karyawan berhasil dihapus",
+    "Employee information successfully updated!": "Informasi karyawan berhasil diperbarui!",
+    "New employee added successfully!": "Karyawan berhasil ditambahkan!",
+
+    "Error updating employee information!" : "Terjadi kesalahan saat memperbarui informasi karyawan!",
+    "Error adding new employee!" : "Terjadi kesalahan saat menambahkan karyawan baru!",
+    
+    "The name field must be at least 3 character long and required" : "Nama harus memiliki panjang minimal 3 karakter dan harus diisi",
+
+    "The address field is required" : "Alamat harus diisi",
+    "The position field is required" : "Posisi harus diisi",
+    "The email field is invalid" : "Email harus diisi dengan benar",
+    "The picture field is required" : "Gambar harus diisi"
+
+}
