@@ -19,23 +19,24 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { DialogBoxComponent } from './dialog-box/dialog-box.component';
-import { EmployeeComponent } from './employee.component';
-const employeeRoutes: Route[] = [
+import { DialogAssetsComponent } from './dialog-assets/dialog-assets.component';
+import { AssetsComponent } from './assets.component';
+
+const assetsRoutes : Route[] = [
   {
       path: '',
-      component: EmployeeComponent,
+      component: AssetsComponent,
+
   },
 ];
 
 @NgModule({
   declarations: [
-    EmployeeComponent,
-    DialogBoxComponent,
-    
+    AssetsComponent,
+    DialogAssetsComponent
   ],
   imports: [
-    RouterModule.forChild(employeeRoutes),
+    RouterModule.forChild(assetsRoutes),
     ReactiveFormsModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -57,4 +58,4 @@ const employeeRoutes: Route[] = [
     MatDialogModule
   ]
 })
-export class EmployeeModule { }
+export class AssetsModule { }

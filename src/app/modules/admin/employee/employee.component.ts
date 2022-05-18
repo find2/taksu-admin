@@ -34,7 +34,25 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
             : []
     );
 
-    private base64textString: String = '';
+    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+
+    constructor(
+        private changeDetectorRefs: ChangeDetectorRef,
+        private _sanitize: DomSanitizer,
+        private _liveAnnouncer: LiveAnnouncer,
+        public dialog: MatDialog,
+        private _fuseConfirmationService: FuseConfirmationService
+    ) {}
+
+    ngOnInit(): void {
+        this.tableData;
+    }
+
+    ngAfterViewInit() {
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+    }
 
     openDialog(action, obj) {
         this.isValidFormSubmitted = null;
@@ -50,15 +68,17 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
                     this.addEmployee(result.data);
                 } else if (result.event === 'Update') {
                     this.editEmployee(result.data);
-                }
-                else if (result.event === 'Cancel') {
+                } else if (result.event === 'Cancel') {
                     this.isValidFormSubmitted = null;
                     this.isValidUpdated = null;
                 }
             } catch (error) {
-                result.error = error;
                 console.log(error);
             }
+        });
+        //click outside the dialog and close it
+        dialogRef.backdropClick().subscribe((v) => {
+            dialogRef.close({ event: 'Cancel' });
         });
     }
 
@@ -72,23 +92,7 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
         'actions',
     ];
 
-    // @ViewChild('myInput') myInputVariable: ElementRef;
-    @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-
-    constructor(
-        private changeDetectorRefs: ChangeDetectorRef,
-        private _sanitize: DomSanitizer,
-        private _liveAnnouncer: LiveAnnouncer,
-        public dialog: MatDialog,
-        private _fuseConfirmationService: FuseConfirmationService
-    ) {}
-
-    ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-    }
-    /** Announce the change in sort state for assistive technology. */
+    /** Announce the change in sort state */
     announceSortChange(sortState: Sort) {
         if (sortState.direction) {
             this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -97,20 +101,13 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
         }
     }
 
-    ngOnInit(): void {
-        this.tableData;
-    }
-
-    get tableData() {
-        this.changeDetectorRefs.detectChanges();
-        return this.dataSource.data;
-    }
-    // Convert base64 to image
+    // Convert base64 to display image
     convertImage(image) {
         return this._sanitize.bypassSecurityTrustUrl(
             'data:image/jpg;base64,' + image
         );
     }
+
     // Delete Employee
     deleteEmployee(id) {
         // Open the confirmation dialog
@@ -153,7 +150,7 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
             message: 'Are you sure you want to update this information ?',
             icon: {
                 show: true,
-                name: "heroicons_outline:information-circle",
+                name: 'heroicons_outline:information-circle',
                 color: 'info',
             },
             actions: {
@@ -163,7 +160,6 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
                 },
             },
         });
-
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe((result) => {
             // If the confirm button pressed...
@@ -187,13 +183,24 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
     }
     // Add Employee
     addEmployee(raw_obj) {
-        var existingEmployees = JSON.parse(
-            localStorage.getItem('allEmployees')
-        );
-        existingEmployees.push(raw_obj);
-        localStorage.setItem('allEmployees', JSON.stringify(existingEmployees));
-        this.dataSource.data = existingEmployees;
-        this.isValidFormSubmitted = true;
+        if (JSON.parse(localStorage.getItem('allEmployees')) == null) {
+            localStorage.setItem('allEmployees', JSON.stringify([raw_obj]));
+            this.dataSource.data = JSON.parse(
+                localStorage.getItem('allEmployees')
+            );
+            this.isValidFormSubmitted = true;
+        } else {
+            var existingEmployees = JSON.parse(
+                localStorage.getItem('allEmployees')
+            );
+            existingEmployees.push(raw_obj);
+            localStorage.setItem(
+                'allEmployees',
+                JSON.stringify(existingEmployees)
+            );
+            this.dataSource.data = existingEmployees;
+            this.isValidFormSubmitted = true;
+        }
     }
 
     search(event: Event) {
@@ -203,5 +210,10 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
         if (this.dataSource.paginator) {
             this.dataSource.paginator.firstPage();
         }
+    }
+
+    get tableData() {
+        this.changeDetectorRefs.detectChanges();
+        return this.dataSource.data;
     }
 }
