@@ -1,165 +1,40 @@
-<h1 mat-dialog-title>
-    <strong>{{ action }} Asset Data</strong>
-</h1>
-<mat-dialog-content>
-    <form
-        *ngIf="action == 'Add'"
-        class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden"
-        [formGroup]="assetsForm"
-        #formDirective="ngForm"
-        #employee="ngForm"
-        (ngSubmit)="doAction(formDirective)"
-    >
-        <div class="flex flex-col gt-xs:flex-row">
-            <mat-form-field class="flex-auto gt-xs:pl-3">
-                <mat-label>Asset Code</mat-label>
-                <input
-                    matInput
-                    type="text"
-                    formControlName="code"
-                    name="code"
-                />
-                <mat-error *ngIf="assetName.errors && assetName.touched"
-                    >The asset code field is required</mat-error
-                >
-            </mat-form-field>
-        </div>
-        <div class="flex flex-col gt-xs:flex-row">
-            <mat-form-field class="flex-auto gt-xs:pl-3">
-                <mat-label>Asset Name</mat-label>
-                <input
-                    matInput
-                    type="text"
-                    formControlName="name"
-                    name="name"
-                />
-                <mat-error *ngIf="assetName.errors && assetName.touched">
-                    The name field must be at least 3 character long and
-                    required
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="flex">
-            <mat-form-field class="fuse-mat-textarea flex-auto">
-                <mat-label>Date Register</mat-label>
-                <input
-                    matInput
-                    [matDatepicker]="picker"
-                    formControlName="dateRegister"
-                    name="dateRegister"
-                    [min]="minDate"
-                />
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle
-                    matSuffix
-                    [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-                <mat-error
-                    *ngIf="
-                        assetDateRegister.errors && assetDateRegister.touched
-                    "
-                    >The date register field is required</mat-error
-                >
-            </mat-form-field>
-        </div>
-        <div class="flex flex-col gt-md:flex-row">
-            <mat-form-field class="flex-auto gt-md:pr-3">
-                <mat-label>Model</mat-label>
-                <input
-                    matInput
-                    type="text"
-                    formControlName="model"
-                    name="model"
-                />
-                <mat-error *ngIf="assetModel.errors && assetModel.touched"
-                    >The model field is required</mat-error
-                >
-            </mat-form-field>
-        </div>
-        <div class="flex flex-col gt-md:flex-row">
-            <mat-form-field class="flex-auto gt-md:pr-3">
-                <mat-label>Serial Number</mat-label>
-                <input
-                    matInput
-                    type="text"
-                    formControlName="serialNumber"
-                    name="serialNumber"
-                />
-                <mat-error
-                    *ngIf="
-                        assetSerialNumber.errors && assetSerialNumber.touched
-                    "
-                    >The serial number field is required</mat-error
-                >
-            </mat-form-field>
-        </div>
-        <div class="flex flex-col gt-md:flex-row">
-            <mat-form-field class="flex-auto gt-md:pr-3">
-                <mat-label>Assign to</mat-label>
-                <mat-select formControlName="assignTo" name="assignTo">
-                    <mat-option
-                        *ngFor="let assignTo of employeeData"
-                        [value]="assignTo.id"
-                    >
-                        {{ assignTo.name }}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="assetAssignTo.errors && assetAssignTo.touched"
-                    >The assign to field is required</mat-error
-                >
-            </mat-form-field>
-        </div>
-        <div class="flex flex-col gt-md:flex-row">
-            <mat-form-field appearance="fill">
-                <mat-label>Status</mat-label>
-                <mat-select formControlName="status" name="status">
-                    <mat-option value="unassigned">Unassigned</mat-option>
-                    <mat-option value="assigned">Assigned</mat-option>
-                    <mat-option value="damaged">Damaged</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-error *ngIf="assetStatus.errors && assetStatus.touched"
-                >The status field is required</mat-error
-            >
-        </div>
-        <div class="mt-10 flex justify-center">
-            <mat-dialog-actions>
-                <button mat-button (click)="closeDialog()" mat-stroked-button>
-                    Cancel
-                </button>
-                <button mat-flat-button color="primary" type="submit">
-                    Submit
-                </button>
-            </mat-dialog-actions>
-        </div>
-    </form>
-    <div *ngIf="action == 'Update'">
+<ng-container *transloco="let t">
+    <h1 mat-dialog-title>
+        <strong
+            >{{ action == "Add" ? t("Add") : t("Update") }}
+            {{ t("Asset Data") }}
+        </strong>
+    </h1>
+    <mat-dialog-content>
         <form
+            *ngIf="action == 'Add'"
             class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden"
             [formGroup]="assetsForm"
             #formDirective="ngForm"
-            #assets="ngForm"
+            #employee="ngForm"
             (ngSubmit)="doAction(formDirective)"
-            id="assetFormSubmit"
         >
             <div class="flex flex-col gt-xs:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pl-3">
-                    <mat-label>Asset Code</mat-label>
+                    <mat-label>
+                        {{ t("Asset Code") }}
+                    </mat-label>
                     <input
                         matInput
                         type="text"
                         formControlName="code"
                         name="code"
                     />
-                    <mat-error *ngIf="assetName.errors && assetName.touched"
-                        >The asset code field is required</mat-error
-                    >
+                    <mat-error *ngIf="assetName.errors && assetName.touched">
+                        {{ t("The asset code field is required") }}
+                    </mat-error>
                 </mat-form-field>
             </div>
             <div class="flex flex-col gt-xs:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pl-3">
-                    <mat-label>Asset Name</mat-label>
+                    <mat-label>
+                        {{ t("Asset Name") }}
+                    </mat-label>
                     <input
                         matInput
                         type="text"
@@ -167,14 +42,19 @@
                         name="name"
                     />
                     <mat-error *ngIf="assetName.errors && assetName.touched">
-                        The name field must be at least 3 character long and
-                        required
+                        {{
+                            t(
+                                "The name field must be at least 3 character long and required"
+                            )
+                        }}
                     </mat-error>
                 </mat-form-field>
             </div>
             <div class="flex">
                 <mat-form-field class="fuse-mat-textarea flex-auto">
-                    <mat-label>Date Register</mat-label>
+                    <mat-label>
+                        {{ t("Date Registered") }}
+                    </mat-label>
                     <input
                         matInput
                         [matDatepicker]="picker"
@@ -193,27 +73,32 @@
                             assetDateRegister.errors &&
                             assetDateRegister.touched
                         "
-                        >The date register field is required</mat-error
                     >
+                        {{ t("The date registered field is required") }}
+                    </mat-error>
                 </mat-form-field>
             </div>
             <div class="flex flex-col gt-md:flex-row">
                 <mat-form-field class="flex-auto gt-md:pr-3">
-                    <mat-label>Model</mat-label>
+                    <mat-label>
+                        {{ t("Model") }}
+                    </mat-label>
                     <input
                         matInput
                         type="text"
                         formControlName="model"
                         name="model"
                     />
-                    <mat-error *ngIf="assetModel.errors && assetModel.touched"
-                        >The model field is required</mat-error
-                    >
+                    <mat-error *ngIf="assetModel.errors && assetModel.touched">
+                        {{ t("The model field is required") }}
+                    </mat-error>
                 </mat-form-field>
             </div>
             <div class="flex flex-col gt-md:flex-row">
                 <mat-form-field class="flex-auto gt-md:pr-3">
-                    <mat-label>Serial Number</mat-label>
+                    <mat-label>
+                        {{ t("Serial Number") }}
+                    </mat-label>
                     <input
                         matInput
                         type="text"
@@ -225,14 +110,22 @@
                             assetSerialNumber.errors &&
                             assetSerialNumber.touched
                         "
-                        >The serial number field is required</mat-error
                     >
+                        {{ t("The serial number field is required") }}
+                    </mat-error>
                 </mat-form-field>
             </div>
             <div class="flex flex-col gt-md:flex-row">
                 <mat-form-field class="flex-auto gt-md:pr-3">
-                    <mat-label>Assign to</mat-label>
+                    <mat-label>
+                        {{ t("Assign To") }}
+                    </mat-label>
                     <mat-select formControlName="assignTo" name="assignTo">
+                        <mat-option value="unassigned" selected>
+                            <span>
+                                {{ t("Select Employee") }}
+                            </span>
+                        </mat-option>
                         <mat-option
                             *ngFor="let assignTo of employeeData"
                             [value]="assignTo.id"
@@ -242,38 +135,231 @@
                     </mat-select>
                     <mat-error
                         *ngIf="assetAssignTo.errors && assetAssignTo.touched"
-                        >The assign to field is required</mat-error
                     >
+                        {{ t("The assign to field is required") }}
+                    </mat-error>
                 </mat-form-field>
             </div>
             <div class="flex flex-col gt-md:flex-row">
                 <mat-form-field appearance="fill">
-                    <mat-label>Status</mat-label>
+                    <mat-label>
+                        {{ t("Status") }}
+                    </mat-label>
                     <mat-select formControlName="status" name="status">
-                        <mat-option value="unassigned">Unassigned</mat-option>
-                        <mat-option value="assigned">Assigned</mat-option>
-                        <mat-option value="damaged">Damaged</mat-option>
+                        <mat-option value="unassigned">
+                            {{ t("Unassigned") }}
+                        </mat-option>
+                        <mat-option value="assigned">
+                            {{ t("Assigned") }}
+                        </mat-option>
+                        <mat-option value="damaged">
+                            {{ t("Damaged") }}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-error *ngIf="assetStatus.errors && assetStatus.touched"
-                    >The status field is required</mat-error
-                >
+                <mat-error *ngIf="assetStatus.errors && assetStatus.touched">
+                    {{ t("The status field is required") }}
+                </mat-error>
+            </div>
+            <div class="mt-10 flex justify-center">
+                <mat-dialog-actions>
+                    <button
+                        mat-button
+                        (click)="closeDialog()"
+                        mat-stroked-button
+                    >
+                        {{ t("Cancel") }}
+                    </button>
+                    <button mat-flat-button color="primary" type="submit">
+                        {{ t("Submit") }}
+                    </button>
+                </mat-dialog-actions>
             </div>
         </form>
-        <div class="mt-10 flex justify-center">
-            <mat-dialog-actions>
-                <button mat-button (click)="closeDialog()" mat-stroked-button>
-                    Cancel
-                </button>
-                <button
-                    mat-flat-button
-                    color="primary"
-                    type="submit"
-                    form="assetFormSubmit"
-                >
-                    Submit
-                </button>
-            </mat-dialog-actions>
+        <div *ngIf="action == 'Update'">
+            <form
+                class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden"
+                [formGroup]="assetsForm"
+                #formDirective="ngForm"
+                #assets="ngForm"
+                (ngSubmit)="doAction(formDirective)"
+                id="assetFormSubmit"
+            >
+                <div class="flex flex-col gt-xs:flex-row">
+                    <mat-form-field class="flex-auto gt-xs:pl-3">
+                        <mat-label>
+                            {{ t("Asset Code") }}
+                        </mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="code"
+                            name="code"
+                        />
+                        <mat-error
+                            *ngIf="assetName.errors && assetName.touched"
+                        >
+                            {{ t("The asset code field is required") }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col gt-xs:flex-row">
+                    <mat-form-field class="flex-auto gt-xs:pl-3">
+                        <mat-label>
+                            {{ t("Asset Name") }}
+                        </mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="name"
+                            name="name"
+                        />
+                        <mat-error
+                            *ngIf="assetName.errors && assetName.touched"
+                        >
+                            {{
+                                t(
+                                    "The name field must be at least 3 character long and required"
+                                )
+                            }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="flex">
+                    <mat-form-field class="fuse-mat-textarea flex-auto">
+                        <mat-label>
+                            {{ t("Date Registered") }}
+                        </mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="picker"
+                            formControlName="dateRegister"
+                            name="dateRegister"
+                            [min]="minDate"
+                        />
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle
+                            matSuffix
+                            [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error
+                            *ngIf="
+                                assetDateRegister.errors &&
+                                assetDateRegister.touched
+                            "
+                        >
+                            {{ t("The date registered field is required") }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col gt-md:flex-row">
+                    <mat-form-field class="flex-auto gt-md:pr-3">
+                        <mat-label>
+                            {{ t("Model") }}
+                        </mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="model"
+                            name="model"
+                        />
+                        <mat-error
+                            *ngIf="assetModel.errors && assetModel.touched"
+                        >
+                            {{ t("The model field is required") }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col gt-md:flex-row">
+                    <mat-form-field class="flex-auto gt-md:pr-3">
+                        <mat-label>
+                            {{ t("Serial Number") }}
+                        </mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="serialNumber"
+                            name="serialNumber"
+                        />
+                        <mat-error
+                            *ngIf="
+                                assetSerialNumber.errors &&
+                                assetSerialNumber.touched
+                            "
+                        >
+                            {{ t("The serial number field is required") }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col gt-md:flex-row">
+                    <mat-form-field class="flex-auto gt-md:pr-3">
+                        <mat-label>
+                            {{ t("Assign To") }}
+                        </mat-label>
+                        <mat-select formControlName="assignTo" name="assignTo">
+                            <mat-option value="unassigned" selected>
+                                {{ t("Select Employee") }}
+                            </mat-option>
+                            <mat-option
+                                *ngFor="let assignTo of employeeData"
+                                [value]="assignTo.id"
+                            >
+                                {{ assignTo.name }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="
+                                assetAssignTo.errors && assetAssignTo.touched
+                            "
+                        >
+                            {{ t("The assign to field is required") }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col gt-md:flex-row">
+                    <mat-form-field appearance="fill">
+                        <mat-label>
+                            {{ t("Status") }}
+                        </mat-label>
+                        <mat-select formControlName="status" name="status">
+                            <mat-option value="unassigned">
+                                {{ t("Unassigned") }}
+                            </mat-option>
+                            <mat-option value="assigned">
+                                {{ t("Assigned") }}
+                            </mat-option>
+                            <mat-option value="damaged">
+                                {{ t("Damaged") }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-error
+                        *ngIf="assetStatus.errors && assetStatus.touched"
+                    >
+                        {{ t("The status field is required") }}
+                    </mat-error>
+                </div>
+            </form>
+            <div class="mt-10 flex justify-center">
+                <mat-dialog-actions>
+                    <button
+                        mat-button
+                        (click)="closeDialog()"
+                        mat-stroked-button
+                    >
+                        {{ t("Cancel") }}
+                    </button>
+                    <button
+                        mat-flat-button
+                        color="primary"
+                        type="submit"
+                        form="assetFormSubmit"
+                    >
+                        {{ t("Submit") }}
+                    </button>
+                </mat-dialog-actions>
+            </div>
         </div>
-    </div>
-</mat-dialog-content>
+    </mat-dialog-content>
+</ng-container>

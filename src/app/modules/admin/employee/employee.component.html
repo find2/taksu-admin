@@ -1,166 +1,181 @@
-<div class="flex flex-col flex-auto min-w-0">
-    <!-- Main -->
+<ng-container *transloco="let t">
+    <div class="flex flex-col flex-auto min-w-0">
+        <!-- Main -->
 
-    <div class="flex-auto p-6 sm:p-10">
-        <!-- CONTENT GOES HERE -->
-        <div
-            class="flex flex-col mt-8 p-8 pb-4 mb-8 bg-card rounded-2xl shadow overflow-hidden"
-        >
-            <!-- Alert for add employee -->
-            <fuse-alert
-                [appearance]="'soft'"
-                [dismissible]="true"
-                [dismissed]="false"
-                [name]="'alertBox1'"
-                [type]="'success'"
-                *ngIf="isValidFormSubmitted"
+        <div class="flex-auto p-6 sm:p-10">
+            <!-- CONTENT GOES HERE -->
+            <div
+                class="flex flex-col mt-8 p-8 pb-4 mb-8 bg-card rounded-2xl shadow overflow-hidden"
             >
-                New employee added successfully!
-            </fuse-alert>
-
-            <fuse-alert
-                [appearance]="'soft'"
-                [dismissible]="true"
-                [dismissed]="false"
-                [name]="'alertBox2'"
-                [type]="'error'"
-                *ngIf="isValidFormSubmitted == false"
-            >
-                Error adding new employee!
-            </fuse-alert>
-            <!-- Alert for update employee  -->
-            <fuse-alert
-                [appearance]="'soft'"
-                [dismissible]="true"
-                [dismissed]="false"
-                [name]="'alertBox3'"
-                [type]="'success'"
-                *ngIf="isValidUpdated"
-            >
-                Employee information successfully updated!
-            </fuse-alert>
-
-            <fuse-alert
-                [appearance]="'soft'"
-                [dismissible]="true"
-                [dismissed]="false"
-                [name]="'alertBox4'"
-                [type]="'error'"
-                *ngIf="isValidUpdated == false"
-            >
-                Error updating employee information!
-            </fuse-alert>
-            <!-- <dialog-box-component></dialog-box-component> -->
-            <mat-form-field appearance="outline" >
-                <mat-label>Search</mat-label>
-                <input
-                    matInput
-                    (keyup)="search($event)"
-                    placeholder="Search"
-                    #input
-                />
-            </mat-form-field>
-            <div class="flex mb-3">
-                <button
-                    mat-flat-button
-                    color="primary"
-                    (click)="openDialog('Add', {})"
+                <!-- Alert for add employee -->
+                <fuse-alert
+                    [appearance]="'soft'"
+                    [dismissible]="true"
+                    [dismissed]="false"
+                    [name]="'alertBox1'"
+                    [type]="'success'"
+                    *ngIf="isValidFormSubmitted"
                 >
-                    <mat-icon>add</mat-icon> Add Employee
-                </button>
-            </div>
-            <div class="table-container">
-                <table
-                    mat-table
-                    [dataSource]="dataSource"
-                    matSort
-                    class="w-full"
-                    matSort
-                    (matSortChange)="announceSortChange($event)"
+                        {{ t("New employee added successfully!") }}
+                                </fuse-alert>
+
+                <fuse-alert
+                    [appearance]="'soft'"
+                    [dismissible]="true"
+                    [dismissed]="false"
+                    [name]="'alertBox2'"
+                    [type]="'error'"
+                    *ngIf="isValidFormSubmitted == false"
                 >
-                    <ng-container matColumnDef="id">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                            ID
-                        </th>
-                        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="position">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                            Position
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{ element.position }}
-                        </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                            Name
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{ element.name }}
-                        </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="address">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                            Address
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{ element.address }}
-                        </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="email">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                            Email
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{ element.email }}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="picture">
-                        <th mat-header-cell *matHeaderCellDef>Picture</th>
-                        <td mat-cell *matCellDef="let element">
-                            <img
-                                [src]="convertImage(element.picture)"
-                                alt="{{ element.name }}"
-                                class="w-12 h-12 rounded-full"
-                            />
-                        </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="actions">
-                        <th mat-header-cell *matHeaderCellDef>Actions</th>
-                        <td mat-cell *matCellDef="let element">
-                            <button
-                                mat-icon-button
-                                (click)="openDialog('Update', element)"
-                            >
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                            <button
-                                mat-icon-button
-                                (click)="deleteEmployee(element.id)"
-                            >
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </td>
-                    </ng-container>
-    
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr
-                        mat-row
-                        *matRowDef="let row; columns: displayedColumns"
-                    ></tr>
-                </table>
+                        {{ t("Error adding new employee!") }}
+                                </fuse-alert>
+                <!-- Alert for update employee  -->
+                <fuse-alert
+                    [appearance]="'soft'"
+                    [dismissible]="true"
+                    [dismissed]="false"
+                    [name]="'alertBox3'"
+                    [type]="'success'"
+                    *ngIf="isValidUpdated"
+                >
+                        {{ t("Employee information successfully updated!") }}
+                                </fuse-alert>
+
+                <fuse-alert
+                    [appearance]="'soft'"
+                    [dismissible]="true"
+                    [dismissed]="false"
+                    [name]="'alertBox4'"
+                    [type]="'error'"
+                    *ngIf="isValidUpdated == false"
+                >
+                        {{ t("Error updating employee information!") }}
+                                </fuse-alert>
+                <!-- <dialog-box-component></dialog-box-component> -->
+                <mat-form-field appearance="outline">
+                    <mat-label>
+
+                            {{ t("Search") }}
+                                        </mat-label>
+                        <input
+                            matInput
+                            (keyup)="search($event)"
+                            placeholder="{{ t('Search') }}"
+                            #input
+                        />
+                                </mat-form-field>
+
+                <div class="flex mb-3">
+                    <button
+                        mat-flat-button
+                        color="primary"
+                        (click)="openDialog('Add', {})"
+                    >
+                        <mat-icon>add</mat-icon>
+
+                            {{ t("Add Employee") }}
+                                        </button>
+                </div>
+                <div class="table-container">
+                    <table
+                        mat-table
+                        [dataSource]="dataSource"
+                        matSort
+                        class="w-full"
+                        matSort
+                        (matSortChange)="announceSortChange($event)"
+                    >
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            
+                                    {{ t("ID") }}
+                                                        </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.id }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            
+                                    {{ t("Position") }}
+                                                        </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.position }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            
+                                    {{ t("Name") }}
+                                                        </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.name }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="address">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            
+                                    {{ t("Address") }}
+                                                        </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.address }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="email">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            
+                                    {{ t("Email") }}
+                                                        </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.email }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="picture">
+                            <th mat-header-cell *matHeaderCellDef>
+            
+                                    {{ t("Picture") }}
+                                                        </th>
+                            <td mat-cell *matCellDef="let element">
+                                <img
+                                    [src]="convertImage(element.picture)"
+                                    alt="{{ element.name }}"
+                                    class="w-12 h-12 rounded-full"
+                                />
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef>
+            
+                                    {{ t("Actions") }}
+                                                        </th>
+                            <td mat-cell *matCellDef="let element">
+                                <button
+                                    mat-icon-button
+                                    (click)="openDialog('Update', element)"
+                                >
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button
+                                    mat-icon-button
+                                    (click)="deleteEmployee(element.id)"
+                                >
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr
+                            mat-row
+                            *matRowDef="let row; columns: displayedColumns"
+                        ></tr>
+                    </table>
+                </div>
+                <mat-paginator
+                    [pageSizeOptions]="[5, 10, 20]"
+                    aria-label="Select page of periodic elements"
+                >
+                </mat-paginator>
             </div>
-            <mat-paginator
-                [pageSizeOptions]="[5, 10, 20]"
-                aria-label="Select page of periodic elements"
-            >
-            </mat-paginator>
         </div>
     </div>
-</div>
+</ng-container>

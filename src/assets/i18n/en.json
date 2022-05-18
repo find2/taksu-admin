@@ -1,5 +1,67 @@
 {
     "welcome-back": "Welcome back",
     "Project": "Project",
-    "Analytics": "Analytics"
+    "Analytics": "Analytics",
+
+    "ID": "ID",
+    "Asset": "Asset",
+    "Add Asset": "Add Asset",
+    "Asset Data": "Asset Data",
+    "Asset Name": "Asset Name",
+    "Asset Code": "Asset Code",
+    "Date Registered": "Date Registered",
+    "Model": "Model",
+    "Serial Number": "Serial Number",
+    "Assign To": "Assign To",
+    "Status": "Status",
+    "The asset code field is required": "The asset code field is required",
+    "The date registered field is required": "The date registered field is required",
+    "The model field is required": "The model field is required",
+    "The serial number field is required": "The serial number field is required", 
+    "The status field is required": "The status field is required",
+    "Select Employee": "Select Employee",
+    "The assign to field is required": "The assign to field is required",
+    "Unassigned": "Unassigned",
+    "Assigned": "Assigned",
+    "Damaged": "Damaged",
+
+    "Settings": "Settings",
+    "Logout": "Logout",
+    "Dashboard": "Dashboard",
+
+    "Employee": "Employee",
+    "Add Employee": "Add Employee",
+    "Name": "Name",
+    "Email": "Email",
+    "Position": "Position",
+    "Address": "Address",
+    "Phone": "Phone",
+    "Picture": "Picture",
+    "Submit": "Submit",
+    "Cancel": "Cancel",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Search": "Search",
+    "Actions" : "Actions",
+    "Employee Data": "Employee Data",
+    "Add" : "Add",
+    "Update" : "Update",
+    "Profile Picture": "Profile Picture",
+
+    "Are you sure you want to delete this employee?": "Are you sure you want to delete this employee?",
+
+    "Employee successfully deleted": "Employee successfully deleted",
+    "Employee information successfully updated!": "Employee information successfully updated!",
+    "New employee added successfully!": "New employee added successfully!",
+
+    "Error updating employee information!" : "Error updating employee information!",
+    "Error adding new employee!" : "Error adding new employee!",
+    
+    "The name field must be at least 3 character long and required" : "The name field must be at least 3 character long and required",
+
+    "The address field is required" : "The address field is required",
+    "The position field is required" : "The position field is required",
+    "The email field is invalid" : "The email field is invalid",
+    "The picture field is required" : "The picture field is required"
+
 }

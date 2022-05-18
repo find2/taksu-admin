@@ -52,7 +52,7 @@ export class LanguagesComponent implements OnInit, OnDestroy
         // Set the country iso codes for languages for flags
         this.flagCodes = {
             'en': 'us',
-            'tr': 'tr'
+            'idn':'idn'
         };
     }
 
@@ -121,14 +121,14 @@ export class LanguagesComponent implements OnInit, OnDestroy
         const navigation = navComponent.navigation;
 
         // Get the Project dashboard item and update its title
-        const projectDashboardItem = this._fuseNavigationService.getItem('dashboards.project', navigation);
-        if ( projectDashboardItem )
+        const employeeDashboardItem = this._fuseNavigationService.getItem('employee', navigation);
+        if ( employeeDashboardItem )
         {
-            this._translocoService.selectTranslate('Project').pipe(take(1))
+            this._translocoService.selectTranslate('Employee').pipe(take(1))
                 .subscribe((translation) => {
 
                     // Set the title
-                    projectDashboardItem.title = translation;
+                    employeeDashboardItem.title = translation;
 
                     // Refresh the navigation component
                     navComponent.refresh();
@@ -136,14 +136,14 @@ export class LanguagesComponent implements OnInit, OnDestroy
         }
 
         // Get the Analytics dashboard item and update its title
-        const analyticsDashboardItem = this._fuseNavigationService.getItem('dashboards.analytics', navigation);
-        if ( analyticsDashboardItem )
+        const assetsDashboardItem = this._fuseNavigationService.getItem('assets', navigation);
+        if ( assetsDashboardItem )
         {
-            this._translocoService.selectTranslate('Analytics').pipe(take(1))
+            this._translocoService.selectTranslate('Asset').pipe(take(1))
                 .subscribe((translation) => {
 
                     // Set the title
-                    analyticsDashboardItem.title = translation;
+                    assetsDashboardItem.title = translation;
 
                     // Refresh the navigation component
                     navComponent.refresh();

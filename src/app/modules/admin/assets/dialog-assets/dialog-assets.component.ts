@@ -78,7 +78,7 @@ export class DialogAssetsComponent implements OnInit {
         this.dateRegister = new FormControl('', [Validators.required]);
         this.model = new FormControl('', [Validators.required]);
         this.serialNumber = new FormControl('', [Validators.required]);
-        this.assignTo = new FormControl('', [Validators.required]);
+        this.assignTo = new FormControl('unasigned');
         this.status = new FormControl('', [Validators.required]);
     }
 

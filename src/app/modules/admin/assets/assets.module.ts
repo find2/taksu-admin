@@ -1,3 +1,4 @@
+import { TranslocoModule } from '@ngneat/transloco';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { NgModule } from '@angular/core';
@@ -55,7 +56,8 @@ const assetsRoutes : Route[] = [
     FuseAlertModule,
     MatSortModule,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    TranslocoModule
   ]
 })
 export class AssetsModule { }
