@@ -1,3 +1,4 @@
+import { TranslocoService } from '@ngneat/transloco';
 import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -27,6 +28,10 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
     isValidFormSubmitted = null;
     isValidUpdated = null;
     isValidPicture = null;
+    tl_content = null;
+    tl_title = null;
+    dl_button = null;
+    cl_button = null;
 
     dataSource = new MatTableDataSource(
         localStorage.getItem('allEmployees') != null
@@ -42,11 +47,33 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
         private _sanitize: DomSanitizer,
         private _liveAnnouncer: LiveAnnouncer,
         public dialog: MatDialog,
-        private _fuseConfirmationService: FuseConfirmationService
+        private _fuseConfirmationService: FuseConfirmationService,
+        private service: TranslocoService
     ) {}
 
     ngOnInit(): void {
         this.tableData;
+        this.service.selectTranslate("Are you sure you want to delete this employee?").subscribe(
+            (res) => {
+                this.tl_content = res;
+            }
+        );
+        this.service.selectTranslate("Delete Employee").subscribe(
+            (res) => {
+                this.tl_title = res;
+            }
+        );
+        this.service.selectTranslate("Delete").subscribe(
+            (res) => {
+                this.dl_button = res;
+            }
+        );
+        this.service.selectTranslate("Cancel").subscribe(
+            (res) => {
+                this.cl_button = res;
+            }
+        );
+
     }
 
     ngAfterViewInit() {
@@ -112,12 +139,15 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
     deleteEmployee(id) {
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            title: 'Delete Employee',
-            message: 'Are you sure you want to delete this data ?',
+            title: this.tl_title,
+            message: this.tl_content,
             actions: {
                 confirm: {
-                    label: 'Delete',
+                    label: this.dl_button,
                 },
+                cancel: {
+                    label: this.cl_button,
+                }   
             },
         });
 

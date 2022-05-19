@@ -1,3 +1,4 @@
+import { TranslocoService } from '@ngneat/transloco';
 import { FuseConfirmationService } from '@fuse/services/confirmation/confirmation.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -25,7 +26,10 @@ import { DialogAssetsComponent } from './dialog-assets/dialog-assets.component';
 export class AssetsComponent implements OnInit, AfterViewInit {
     isValidFormSubmitted = null;
     isValidUpdated = null;
-
+    as_content = null;
+    as_title = null;
+    asdl_button = null;
+    ascl_button = null;
     dataSource = new MatTableDataSource(
         localStorage.getItem('allAssets') != null
             ? JSON.parse(localStorage.getItem('allAssets'))
@@ -39,11 +43,33 @@ export class AssetsComponent implements OnInit, AfterViewInit {
         public dialog: MatDialog,
         private changeDetectorRefs: ChangeDetectorRef,
         private _liveAnnouncer: LiveAnnouncer,
-        private _fuseConfirmationService: FuseConfirmationService
+        private _fuseConfirmationService: FuseConfirmationService,
+        private service: TranslocoService
     ) {}
 
     ngOnInit(): void {
         this.tableDataAsset;
+        this.service.selectTranslate("Are you sure you want to delete this asset?").subscribe(
+            (res) => {
+                this.as_content = res;
+            }
+        );
+        this.service.selectTranslate("Delete Asset").subscribe(
+            (res) => {
+                this.as_title = res;
+            }
+        );
+        this.service.selectTranslate("Delete").subscribe(
+            (res) => {
+                this.asdl_button = res;
+            }
+        );
+        this.service.selectTranslate("Cancel").subscribe(
+            (res) => {
+                this.ascl_button = res;
+            }
+        );
+
     }
     ngAfterViewInit() {
       this.dataSource.sort = this.sort;
@@ -151,11 +177,14 @@ export class AssetsComponent implements OnInit, AfterViewInit {
     deleteAsset(id) {
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            title: 'Delete Employee',
-            message: 'Are you sure you want to delete this data ?',
+            title: this.as_title,
+            message: this.as_content,
             actions: {
                 confirm: {
-                    label: 'Delete',
+                    label: this.asdl_button,
+                },
+                cancel: {
+                    label: this.ascl_button,
                 },
             },
         });
