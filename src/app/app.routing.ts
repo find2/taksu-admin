@@ -76,6 +76,7 @@ export const appRoutes: Route[] = [
         children   : [
             {path: 'employee', loadChildren: () => import('app/modules/admin/employee/employee.module').then(m => m.EmployeeModule)},
             {path: 'assets', loadChildren: () => import('app/modules/admin/assets/assets.module').then(m => m.AssetsModule)},
+            {path: 'calendar-cuti', loadChildren: () => import('app/modules/admin/calendar-cuti/calendar-cuti.module').then(m => m.CalendarCutiModule)},
         ]
     }
 ];
