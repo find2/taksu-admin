@@ -31,6 +31,7 @@ export class DialogBoxComponent implements OnInit {
     endLeaveTime: FormControl
     fullDayLeave: FormControl
     leaveType: FormControl
+    employeeName: FormControl
     assignTo: FormControl
 
     minDate: Date
@@ -91,6 +92,7 @@ export class DialogBoxComponent implements OnInit {
                 fullDayLeave: this.local_data.fullDayLeave,
                 leaveType: this.local_data.leaveType,
                 assignTo: this.local_data.assignTo,
+                employeeName: this.local_data.employeeName,
             }
 
             if (this.local_data.fullDayLeave) {
@@ -124,6 +126,7 @@ export class DialogBoxComponent implements OnInit {
             fullDayLeave: this.fullDayLeave,
             leaveType: this.leaveType,
             assignTo: this.assignTo,
+            employeeName: this.employeeName,
         })
     }
 
@@ -137,6 +140,7 @@ export class DialogBoxComponent implements OnInit {
         this.fullDayLeave = new FormControl('', [Validators.required])
         this.leaveType = new FormControl('', [Validators.required])
         this.assignTo = new FormControl('unasigned')
+        this.employeeName = new FormControl('')
     }
 
     get randomId() {
@@ -180,19 +184,22 @@ export class DialogBoxComponent implements OnInit {
         switch (this.action) {
             case 'Add':
                 this.isValidFormSubmitted = false
+                this.employeeName = this.getEmployeeName(this.assignTo.value)
 
                 if (this.getFullDayLeave) {
                     this.leavesForm.patchValue({
                         id: this.randomId,
                         fullDayLeave: this.getFullDayLeave,
                         startLeaveTime: "08:00",
-                        endLeaveTime: "17:00"
+                        endLeaveTime: "17:00",
+                        employeeName: this.employeeName
                     })
                 } else {
                     this.leavesForm.patchValue({
                         id: this.randomId,
                         fullDayLeave: this.getFullDayLeave,
                         endLeaveDate: this.getStartLeaveDate.value,
+                        employeeName: this.employeeName
                     })
                 }
 
@@ -232,17 +239,23 @@ export class DialogBoxComponent implements OnInit {
             case 'Update':
                 console.log('update jalan: ')
                 this.isValidFormSubmitted = false
+                this.employeeName = this.getEmployeeName(this.assignTo.value)
+
 
                 if (this.getFullDayLeave) {
                     this.leavesForm.patchValue({
                         fullDayLeave: this.getFullDayLeave,
                         startLeaveTime: "08:00",
-                        endLeaveTime: "17:00"
+                        endLeaveTime: "17:00",
+                        employeeName: this.employeeName
+
                     })
                 } else {
                     this.leavesForm.patchValue({
                         fullDayLeave: this.getFullDayLeave,
                         endLeaveDate: this.getStartLeaveDate.value,
+                        employeeName: this.employeeName
+
                     })
                 }
 
@@ -282,6 +295,26 @@ export class DialogBoxComponent implements OnInit {
                 })
                 break
         }
+    }
+
+    getEmployeeName(data){
+      console.log(data)
+      try {
+        let existingEmployee = JSON.parse(
+            localStorage.getItem('allEmployees')
+        )
+        const index = existingEmployee.findIndex(
+            (x) => x.id === data
+        )
+        console.log(existingEmployee)
+        console.log(index)
+
+        return existingEmployee[index].name
+
+      } catch (err: unknown) {
+        console.log("Error: ", err)
+        
+      }
     }
 
     closeDialog() {

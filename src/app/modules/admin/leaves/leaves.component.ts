@@ -71,7 +71,7 @@ export class LeavesComponent implements OnInit {
     }
 
     public displayedColumns: string[] = [
-        'assignTo',
+        'employeeName',
         'leaveType',
         'fullDayLeave',
         'startLeaveDate',
@@ -265,23 +265,6 @@ export class LeavesComponent implements OnInit {
                 }
             }
         })
-    }
-
-    getEmployeeName(data){
-      try {
-        let existingEmployee = JSON.parse(
-            localStorage.getItem('allEmployees')
-        )
-        const index = existingEmployee.findIndex(
-            (x) => x.id === data
-        )
-
-        return existingEmployee[index].name
-
-      } catch (err: unknown) {
-        console.log("Error: ", err)
-        
-      }
     }
 
 }

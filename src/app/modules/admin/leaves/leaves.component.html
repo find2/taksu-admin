@@ -84,7 +84,7 @@
                         matSort
                         (matSortChange)="announceSortChange($event)"
                     >
-                        <ng-container matColumnDef="assignTo">
+                        <ng-container matColumnDef="employeeName">
                             <th
                                 mat-header-cell
                                 *matHeaderCellDef
@@ -93,11 +93,8 @@
                                 {{ t("Assign To") }}
                             </th>
                             <td mat-cell *matCellDef="let element">
-                                <div *ngIf="element.assignTo == 'unassigned'">
-                                    {{ t("Unassigned") }}
-                                </div>
-                                <div *ngIf="element.assignTo != 'unassigned'">
-                                    {{ getEmployeeName(element.assignTo) }}
+                                <div>
+                                    {{element.employeeName}}
                                 </div>
                             </td>
                         </ng-container>
@@ -135,7 +132,12 @@
                                 Full Day
                             </th>
                             <td mat-cell *matCellDef="let element">
-                                {{ element.fullDayLeave }}
+                                <div *ngIf="element.fullDayLeave">
+                                    Full Day
+                                </div>
+                                <div *ngIf="!element.fullDayLeave">
+                                    Half Day
+                                </div>
                             </td>
                         </ng-container>
     
@@ -161,6 +163,7 @@
                                 Tanggal Akhir Izin
                             </th>
                             <td mat-cell *matCellDef="let element">
+                                <!-- {{ element.endLeaveDate | date: 'mediumDate' }} -->
                                 {{ element.endLeaveDate | date: 'mediumDate' }}
                             </td>
                         </ng-container>
