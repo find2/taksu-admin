@@ -23,6 +23,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon : 'heroicons_outline:archive',
         link : '/assets'
     },
+    {
+        id   : 'leaves',
+        title: 'Leaves',
+        type : 'basic',
+        icon : 'heroicons_outline:calendar',
+        link : '/leaves'
+    },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     // {
@@ -45,6 +52,13 @@ export const compactNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:archive',
         link : '/assets'
+    },
+    {
+        id   : 'leaves',
+        title: 'Leaves',
+        type : 'basic',
+        icon : 'heroicons_outline:calendar',
+        link : '/leaves'
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
@@ -69,6 +83,13 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         icon : 'heroicons_outline:archive',
         link : '/assets'
     },
+    {
+        id   : 'leaves',
+        title: 'Leaves',
+        type : 'basic',
+        icon : 'heroicons_outline:calendar',
+        link : '/leaves'
+    },
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
     // {
@@ -91,5 +112,12 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:archive',
         link : '/assets'
+    },
+    {
+        id   : 'leaves',
+        title: 'Leaves',
+        type : 'basic',
+        icon : 'heroicons_outline:calendar',
+        link : '/leaves'
     },
 ];

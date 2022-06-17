@@ -1,0 +1,328 @@
+<ng-container *transloco="let t">
+    <h1 mat-dialog-title>
+        <strong
+            >{{ action == "Add" ? t("Add") : t("Update") }}
+            {{ t("Leave Data") }}
+        </strong>
+    </h1>
+    <mat-dialog-content>
+        <form
+            *ngIf="action == 'Add'"
+            class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden"
+            [formGroup]="leavesForm"
+            #formDirective="ngForm"
+            #leave="ngForm"
+            (ngSubmit)="doAction(formDirective)"
+        >
+            <div class="flex flex-col gt-md:flex-row">
+                <mat-form-field class="flex-auto gt-md:pr-3">
+                    <mat-label>
+                        {{ t("Leaves For") }}
+                    </mat-label>
+                    <mat-select formControlName="assignTo" name="assignTo">
+                        <mat-option value="unassigned" selected>
+                            <span>
+                                {{ t("Select Employee") }}
+                            </span>
+                        </mat-option>
+                        <mat-option
+                            *ngFor="let assignTo of employeeData"
+                            [value]="assignTo.id"
+                        >
+                            {{ assignTo.name }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="leaveAssignTo.errors && leaveAssignTo.touched"
+                    >
+                        {{ t("The assign to field is required") }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+
+            <div class="flex flex-row gap-4 justify-start">
+                <div class="flex-auto gt-xs:pl-3 mb-3">
+                    <mat-checkbox #fullDayCB [aria-label]="isFullDay" (change)="true"  formControlName="fullDayLeave">
+                        FullDay
+                    </mat-checkbox>
+                </div>
+            </div>
+
+            <!-- ====== DatePicker For Half Day ====== -->
+            <div class="flex flex-row gap-4 justify-start" *ngIf="!fullDayCB.checked">
+                <mat-form-field class="flex-auto gt-xs:pl-3">
+                    <mat-label>
+                        Select Leave Date
+                    </mat-label>
+                    <input
+                            matInput
+                            [matDatepicker]="picker"
+                            name="dateRegister"
+                            formControlName="startLeaveDate"
+                            [min]="minDate"
+                        />
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle
+                            matSuffix
+                            [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <!-- ====== DatePicker for Full Day ====== -->
+            <div class="flex flex-row gap-4 justify-start" *ngIf="fullDayCB.checked">
+                <mat-form-field class="flex-auto gt-xs:pl-3">
+                    <mat-label>
+                        Select Leave Date
+                    </mat-label>
+                    
+                    <mat-date-range-input [formGroup]="leavesForm" [rangePicker]="rangePicker">
+                        <input matStartDate [min]="minDate" formControlName="startLeaveDate" placeholder="Start date">
+                        <input matEndDate formControlName="endLeaveDate" placeholder="End date">
+                    </mat-date-range-input>
+                    
+                    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #rangePicker></mat-date-range-picker>
+                    <mat-error
+                        *ngIf="
+                            (getStartLeaveDate.errors &&
+                            getStartLeaveDate.touched) && (getEndLeaveDate.errors &&
+                            getEndLeaveDate.touched)
+                        "
+                    >
+                        {{ t("The date registered field is required") }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <!-- ====== Time Picker ====== -->
+            <div class="flex flex-row gap-4 justify-start" *ngIf="!fullDayCB.checked">
+                <mat-form-field class="flex-auto gt-xs:pl-3">
+                    <mat-label>
+                        Select Start Time
+                    </mat-label>
+                    <input matInput #startTimeInput [enableKeyboardInput]="true" [format]="24" [min]="'08:00'" [timeSet]="setMinStartTime(startTimeInput.value)" (input)="setMinStartTime(startTimeInput.value)" [ngxTimepicker]="startLeaveTime" formControlName="startLeaveTime" placeholder="Start time">
+                    <ngx-material-timepicker #startLeaveTime></ngx-material-timepicker>
+                </mat-form-field>
+
+                <mat-form-field class="flex-auto gt-xs:pl-3">
+                    <mat-label>
+                        Select End Time
+                    </mat-label>
+                    <input matInput [format]="24" [min]="minEndLeaveTime" [max]="'17:00'"[ngxTimepicker]="endLeaveTime" formControlName="endLeaveTime"  placeholder="End time">
+                    <ngx-material-timepicker #endLeaveTime></ngx-material-timepicker>
+                </mat-form-field>
+
+            </div>
+
+            <div class="flex flex-col gt-md:flex-row">
+                <mat-form-field class="flex-auto gt-md:pr-3">
+                    <mat-label>
+                        Leaves Type
+                    </mat-label>
+                    <mat-select formControlName="leaveType" name="type">
+                        <mat-option value="unassigned" selected>
+                            <span>
+                                Select Leave Type
+                            </span>
+                        </mat-option>
+                        <mat-option
+                            *ngFor="let type of leaveTypeData"
+                            [value]="type.code"
+                        >
+                            {{ type.name }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error
+                        *ngIf="getLeaveType.errors && getLeaveType.touched"
+                    >
+                        {{ t("The assign to field is required") }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+
+            <!-- ==== Button ==== -->
+
+            <div class="mt-10 flex justify-center">
+                <mat-dialog-actions>
+                    <button
+                        mat-button
+                        (click)="closeDialog()"
+                        mat-stroked-button
+                    >
+                        {{ t("Cancel") }}
+                    </button>
+                    <button mat-flat-button color="primary" type="submit">
+                        {{ t("Submit") }}
+                    </button>
+                </mat-dialog-actions>
+            </div>
+        </form>
+        <div *ngIf="action == 'Update'">
+            <form
+                class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden"
+                [formGroup]="leavesForm"
+                #formDirective="ngForm"
+                #assets="ngForm"
+                (ngSubmit)="doAction(formDirective)"
+                id="leavesFormSubmit"
+            >
+                <div class="flex flex-col gt-md:flex-row">
+                    <mat-form-field class="flex-auto gt-md:pr-3">
+                        <mat-label>
+                            {{ t("Leaves For") }}
+                        </mat-label>
+                        <mat-select formControlName="assignTo" name="assignTo">
+                            <mat-option value="unassigned" selected>
+                                <span>
+                                    {{ t("Select Employee") }}
+                                </span>
+                            </mat-option>
+                            <mat-option
+                                *ngFor="let assignTo of employeeData"
+                                [value]="assignTo.id"
+                            >
+                                {{ assignTo.name }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="leaveAssignTo.errors && leaveAssignTo.touched"
+                        >
+                            {{ t("The assign to field is required") }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+
+                <div class="flex flex-row gap-4 justify-start">
+                    <div class="flex-auto gt-xs:pl-3 mb-3">
+                        <mat-checkbox #fullDayCB [aria-label]="isFullDay" (change)="true" formControlName="fullDayLeave">
+                            FullDay
+                        </mat-checkbox>
+                    </div>
+                </div>
+
+                <!-- ====== DatePicker For Half Day ====== -->
+                <div class="flex flex-row gap-4 justify-start" *ngIf="!fullDayCB.checked">
+                    <mat-form-field class="flex-auto gt-xs:pl-3">
+                        <mat-label>
+                            Select Leave Date
+                        </mat-label>
+                        <input
+                                matInput
+                                [matDatepicker]="picker"
+                                name="dateRegister"
+                                formControlName="startLeaveDate"
+                                [min]="minDate"
+                            />
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="picker"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <!-- ====== DatePicker for Full Day ====== -->
+                <div class="flex flex-row gap-4 justify-start" *ngIf="fullDayCB.checked">
+                    <mat-form-field class="flex-auto gt-xs:pl-3">
+                        <mat-label>
+                            Select Leave Date
+                        </mat-label>
+                        
+                        <mat-date-range-input [formGroup]="leavesForm" [rangePicker]="rangePicker">
+                            <input matStartDate [min]="minDate" formControlName="startLeaveDate" placeholder="Start date">
+                            <input matEndDate formControlName="endLeaveDate" placeholder="End date">
+                        </mat-date-range-input>
+                        
+                        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #rangePicker></mat-date-range-picker>
+                        <mat-error
+                            *ngIf="
+                                (getStartLeaveDate.errors &&
+                                getStartLeaveDate.touched) && (getEndLeaveDate.errors &&
+                                getEndLeaveDate.touched)
+                            "
+                        >
+                            {{ t("The date registered field is required") }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- ====== Time Picker ====== -->
+                <div class="flex flex-row gap-4 justify-start" *ngIf="!fullDayCB.checked">
+                    <mat-form-field class="flex-auto gt-xs:pl-3">
+                        <mat-label>
+                            Select Start Time
+                        </mat-label>
+                        <input matInput #startTimeInput [enableKeyboardInput]="true" [format]="24" [min]="'08:00'" [timeSet]="setMinStartTime(startTimeInput.value)" (input)="setMinStartTime(startTimeInput.value)" [ngxTimepicker]="startLeaveTime" formControlName="startLeaveTime" placeholder="Start time">
+                        <ngx-material-timepicker #startLeaveTime></ngx-material-timepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex-auto gt-xs:pl-3">
+                        <mat-label>
+                            Select End Time
+                        </mat-label>
+                        <input matInput [format]="24" [min]="minEndLeaveTime" [max]="'17:00'"[ngxTimepicker]="endLeaveTime" formControlName="endLeaveTime" [value]="placeHolderEndTime" placeholder="End time">
+                        <ngx-material-timepicker #endLeaveTime></ngx-material-timepicker>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex flex-col gt-md:flex-row">
+                    <mat-form-field class="flex-auto gt-md:pr-3">
+                        <mat-label>
+                            Leaves Type
+                        </mat-label>
+                        <mat-select formControlName="leaveType" name="type">
+                            <mat-option value="unassigned" selected>
+                                <span>
+                                    Select Leave Type
+                                </span>
+                            </mat-option>
+                            <mat-option
+                                *ngFor="let type of leaveTypeData"
+                                [value]="type.code"
+                            >
+                                {{ type.name }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="getLeaveType.errors && getLeaveType.touched"
+                        >
+                            {{ t("The assign to field is required") }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </form>
+            <!-- ==== Button ==== -->
+            <div class="mt-10 flex justify-center">
+                <mat-dialog-actions>
+                    <button
+                        mat-button
+                        (click)="closeDialog()"
+                        mat-stroked-button
+                    >
+                        {{ t("Cancel") }}
+                    </button>
+                    <button mat-flat-button
+                            color="primary"
+                            type="submit"
+                            form="leavesFormSubmit">
+                        {{ t("Submit") }}
+                    </button>
+                </mat-dialog-actions>
+            </div>
+        </div>
+        
+
+    </mat-dialog-content>
+
+
+</ng-container>

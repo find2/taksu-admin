@@ -1,0 +1,233 @@
+
+<ng-container *transloco="let t">
+    <div class="flex flex-col flex-auto min-w-0">
+        <!-- Main -->
+        <div class="flex-auto p-6 sm:p-10">
+            <!-- CONTENT GOES HERE -->
+            <div
+                class="flex flex-col mt-8 p-8 pb-4 mb-8 bg-card rounded-2xl shadow overflow-hidden"
+            >
+                <!-- Alert for add asset -->
+                <fuse-alert
+                    [appearance]="'soft'"
+                    [dismissible]="true"
+                    [dismissed]="false"
+                    [name]="'alertBox1'"
+                    [type]="'success'"
+                    *ngIf="isValidFormSubmitted"
+                >
+                    New leave added successfully!
+                </fuse-alert>
+
+                <fuse-alert
+                    [appearance]="'soft'"
+                    [dismissible]="true"
+                    [dismissed]="false"
+                    [name]="'alertBox2'"
+                    [type]="'error'"
+                    *ngIf="isValidFormSubmitted == false"
+                >
+                    Error adding new leave!
+                </fuse-alert>
+                <!-- Alert for update asset  -->
+                <fuse-alert
+                    [appearance]="'soft'"
+                    [dismissible]="true"
+                    [dismissed]="false"
+                    [name]="'alertBox3'"
+                    [type]="'success'"
+                    *ngIf="isValidUpdated"
+                >
+                    Leave information successfully updated!
+                </fuse-alert>
+
+                <fuse-alert
+                    [appearance]="'soft'"
+                    [dismissible]="true"
+                    [dismissed]="false"
+                    [name]="'alertBox4'"
+                    [type]="'error'"
+                    *ngIf="isValidUpdated == false"
+                >
+                    Error updating leave information!
+                </fuse-alert>
+            
+                <mat-form-field appearance="outline">
+                    <mat-label>
+                        {{ t("Search") }}
+                    </mat-label>
+                    <input
+                        matInput
+                        (keyup)="search($event)"
+                        placeholder="{{ t('Search') }}"
+                        #input
+                    />
+                </mat-form-field>
+                <div class="flex mb-3">
+                    <button
+                        mat-flat-button
+                        color="primary"
+                        (click)="openDialog('Add', {})"
+                    >
+                        <mat-icon>add</mat-icon>
+        
+                            {{ t("Add Leave") }}
+                    </button>
+                </div>
+
+                <div class="table-container overflow-x-auto">
+                    <table
+                        mat-table
+                        [dataSource]="dataSource"
+                        matSort
+                        class="w-full overflow-x-auto"
+                        matSort
+                        (matSortChange)="announceSortChange($event)"
+                    >
+                        <ng-container matColumnDef="assignTo">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                            >
+                                {{ t("Assign To") }}
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div *ngIf="element.assignTo == 'unassigned'">
+                                    {{ t("Unassigned") }}
+                                </div>
+                                <div *ngIf="element.assignTo != 'unassigned'">
+                                    {{ getEmployeeName(element.assignTo) }}
+                                </div>
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="leaveType">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                            >
+                                Tipe Izin
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div *ngIf="element.leaveType == 'annual-leave'">
+                                    Annual Leave
+                                </div>
+                                <div *ngIf="element.leaveType == 'unpaid-leave'">
+                                    Unpaid Leave
+                                </div>
+                                <div *ngIf="element.leaveType == 'sick-leave'">
+                                    Sick Leave
+                                </div>
+                                <div *ngIf="element.leaveType == 'complementary-leave'">
+                                    Complementary Leave
+                                </div>
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="fullDayLeave">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                            >
+                                Full Day
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.fullDayLeave }}
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="startLeaveDate">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                            >
+                                Tanggal Mulai Izin
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.startLeaveDate | date: 'mediumDate' }}
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="endLeaveDate">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                            >
+                                Tanggal Akhir Izin
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.endLeaveDate | date: 'mediumDate' }}
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="startLeaveTime">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                            >
+                                Waktu Mulai Izin
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.startLeaveTime }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="endLeaveTime">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                mat-sort-header
+                            >
+                                Waktu Akhir Izin
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.endLeaveTime }}
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef>
+                                {{ t("Actions") }}
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <button
+                                    mat-icon-button
+                                    (click)="openDialog('Update', element)"
+                                >
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button
+                                    mat-icon-button
+                                    (click)="deleteLeaves(element.id)"
+                                >
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+    
+                        <tr
+                            mat-header-row
+                            *matHeaderRowDef="displayedColumns"
+                        ></tr>
+                        <tr
+                            mat-row
+                            *matRowDef="let row; columns: displayedColumns"
+                        ></tr>
+                    </table>
+                </div>
+                <mat-paginator
+                    [pageSizeOptions]="[5, 10, 20]"
+                    aria-label="Select page of periodic elements"
+                >
+                </mat-paginator>
+            </div>
+
+            
+        </div>
+    </div>
+</ng-container>

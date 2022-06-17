@@ -69,5 +69,15 @@
     "Delete Employee" : "Delete Employee",
     "Delete Asset" : "Delete Asset",
 
-    "Are you sure you want to delete this asset?": "Apakah Anda yakin ingin menghapus aset ini?"
+    "Are you sure you want to delete this asset?": "Apakah Anda yakin ingin menghapus aset ini?",
+
+    "Leave": "Leave",
+    "Add Leave": "Add Leave",
+    "Leave Data": "Leave Data",
+    "Leave Name": "Leave Name",
+    "Leave Code": "Leave Code",
+    "Date Registered": "Date Registered",
+    "Leave Type": "Leave Type",
+    "Leaves For": "Leaves For",
+    "Status": "Status"
 }

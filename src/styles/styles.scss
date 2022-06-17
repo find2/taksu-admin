@@ -2,3 +2,9 @@
 /*  @ Import/write your custom styles here.
 /*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
 /* ----------------------------------------------------------------------------------------------------- */
+
+ngx-material-timepicker-container.ng-tns-c177-10.ng-star-inserted,
+.timepicker-backdrop-overlay,
+.timepicker-overlay{
+    z-index: 1099 !important;
+}
