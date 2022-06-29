@@ -1,3 +1,4 @@
+import { user } from './../../mock-api/common/user/data';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
@@ -34,6 +35,16 @@ export class AuthService
     get accessToken(): string
     {
         return localStorage.getItem('accessToken') ?? '';
+    }
+
+    set userLevel(level: string)
+    {
+        localStorage.setItem('userLevel', level);
+    }
+
+    get userLevel(): string
+    {
+        return localStorage.getItem('userLevel') ?? '0';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -85,6 +96,8 @@ export class AuthService
                 // Store the user on the user service
                 this._userService.user = response.user;
 
+                this.userLevel = response.user.level.toString();
+
                 // Return a new observable with the response
                 return of(response);
             })
@@ -129,6 +142,7 @@ export class AuthService
     {
         // Remove the access token from the local storage
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('userLevel');
 
         // Set the authenticated flag to false
         this._authenticated = false;

@@ -67,12 +67,13 @@ export class AuthMockApi
             .reply(({request}) => {
 
                 // Sign in successful
-                if ( request.body.email === 'hughes.brian@company.com' && request.body.password === 'admin' )
+                const currentUser = this._user.filter(user => user.email === request.body.email && user.password === request.body.password);
+                if (currentUser.length > 0)
                 {
                     return [
                         200,
                         {
-                            user       : cloneDeep(this._user),
+                            user       : cloneDeep(currentUser[0]),
                             accessToken: this._generateJWTToken(),
                             tokenType  : 'bearer'
                         }
