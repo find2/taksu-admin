@@ -103,7 +103,15 @@
                                 {{ t("Status") }}
                             </th>
                             <td mat-cell *matCellDef="let element">
-                                {{ element.status }}
+                                <span *ngIf="element.status === 'unapprove'" class="bg-gray-300 text-gray-800 text-xs font-bold rounded-md px-2 py-1">
+                                    Unapprove
+                                </span>
+                                <span *ngIf="element.status === 'approve'" class="bg-green-700 text-white text-xs font-bold rounded-md px-2 py-1">
+                                    Approve
+                                </span>
+                                <span *ngIf="element.status === 'reject'" class="bg-red-700 text-white text-xs font-bold rounded-md px-2 py-1">
+                                    Rejected
+                                </span>
                             </td>
                         </ng-container>
 

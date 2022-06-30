@@ -371,9 +371,7 @@ export class DialogBoxComponent implements OnInit {
         if (userId === '') {
             return 14;
         }
-        console.log(userId, allLeaves);
         const filterLeaves = allLeaves.filter(leave => leave.employeeId === userId && leave.leaveType === 'annual');
-        console.log(filterLeaves.length);
         return filterLeaves.length;
     }
 }

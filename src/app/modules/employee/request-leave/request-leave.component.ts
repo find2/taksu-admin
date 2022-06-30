@@ -225,7 +225,6 @@ export class RequestLeaveComponent implements OnInit, AfterViewInit {
         if (userId === '') {
             return [];
         }
-        console.log(userId, allLeaves);
         const filterLeaves = allLeaves.filter(leave => leave.employeeId === userId);
         return filterLeaves;
     }
