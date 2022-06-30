@@ -77,5 +77,19 @@ export const appRoutes: Route[] = [
             {path: 'employee', loadChildren: () => import('app/modules/admin/employee/employee.module').then(m => m.EmployeeModule)},
             {path: 'assets', loadChildren: () => import('app/modules/admin/assets/assets.module').then(m => m.AssetsModule)},
         ]
+    },
+
+    // Employee routes
+    {
+        path       : '',
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        component  : LayoutComponent,
+        resolve    : {
+            initialData: InitialDataResolver,
+        },
+        children   : [
+            {path: 'request-leave', loadChildren: () => import('app/modules/employee/request-leave/request-leave.module').then(m => m.RequestLeavesModule)},
+        ]
     }
 ];

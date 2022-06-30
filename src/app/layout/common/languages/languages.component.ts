@@ -149,5 +149,19 @@ export class LanguagesComponent implements OnInit, OnDestroy
                     navComponent.refresh();
                 });
         }
+
+        const requestLeaveDashboardItem = this._fuseNavigationService.getItem('requestLeave', navigation);
+        if ( requestLeaveDashboardItem )
+        {
+            this._translocoService.selectTranslate('Request Leave').pipe(take(1))
+                .subscribe((translation) => {
+
+                    // Set the title
+                    requestLeaveDashboardItem.title = translation;
+
+                    // Refresh the navigation component
+                    navComponent.refresh();
+                });
+        }
     }
 }

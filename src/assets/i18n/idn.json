@@ -70,5 +70,31 @@
     "Are you sure you want to delete this asset?": "Apakah Anda yakin ingin menghapus aset ini?",
 
     "Leave Calendar": "Kalender Cuti",
-    "Request Leave": "Pengajuan Cuti"
+    "Request Leave": "Pengajuan Cuti",
+    "Type Leave": "Tipe Cuti",
+    "Annual Leave": "Cuti Berencana",
+    "Sick Leave": "Cuti Sakit",
+    "Emergency Leave": "Cuti Darurat",
+    "Start Date": "Tanggal Mulai",
+    "End Date": "Tanggal Berakhir",
+    "End Time": "Waktu Berakhir",
+    "Start Time": "Waktu Mulai",
+    "Description": "Keterangan",
+    "Leave type field is required": "Kolom tipe cuti wajib diisi",
+    "Select Leave Type": "Pilih Tipe Cuti",
+    "Select Leave Date": "Pilih Tanggal Cuti",
+    "Select End Time": "Pilih Waktu Berakhir",
+    "Select Start Time": "Pilih Waktu Mulai",
+    "Sick Letter": "Surat Sakit",
+    "Current Sick Letter": "Surat Sakit Saat Ini",
+    "Are you sure you want to delete this leave?": "Apakah Anda yakin ingin menghapus cuti ini?",
+
+    "Leave successfully deleted": "Cuti berhasil dihapus",
+    "Leave information successfully updated!": "Informasi cuti berhasil diperbarui!",
+    "New leave added successfully!": "Cuti berhasil ditambahkan!",
+
+    "Error updating leave information!": "Terjadi kesalahan saat memperbarui informasi cuti!",
+    "Error adding new leave!": "Terjadi kesalahan saat menambahkan cuti baru!",
+    "Add Leave": "Tambah Cuti",
+    "Full Day": "Sehari Penuh"
 }

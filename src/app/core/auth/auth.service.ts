@@ -97,6 +97,7 @@ export class AuthService
                 this._userService.user = response.user;
 
                 this.userLevel = response.user.level.toString();
+                localStorage.setItem('userId', response.user.id);
 
                 // Return a new observable with the response
                 return of(response);

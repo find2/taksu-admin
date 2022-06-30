@@ -24,6 +24,22 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link : '/assets'
     },
 ];
+export const employeeNavigation: FuseNavigationItem[] = [
+    // {
+    //     id   : 'example',
+    //     title: 'Example',
+    //     type : 'basic',
+    //     icon : 'heroicons_outline:chart-pie',
+    //     link : '/example'
+    // },
+    {
+        id   : 'requestLeave',
+        title: 'Request Leave',
+        type : 'basic',
+        icon : 'heroicons_outline:briefcase',
+        link : '/request-leave'
+    },
+];
 export const compactNavigation: FuseNavigationItem[] = [
     // {
     //     id   : 'example',

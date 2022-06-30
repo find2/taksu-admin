@@ -88,6 +88,7 @@ export class AuthSignInComponent implements OnInit
 
                 },
                 (response) => {
+                    console.log(response);
 
                     // Re-enable the form
                     this.signInForm.enable();

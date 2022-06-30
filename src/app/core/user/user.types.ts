@@ -5,5 +5,6 @@ export interface User
     email: string;
     avatar?: string;
     status?: string;
+    password?: string;
     level: number;
 }

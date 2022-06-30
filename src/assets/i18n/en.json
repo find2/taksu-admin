@@ -69,7 +69,33 @@
     "Delete Employee": "Delete Employee",
     "Delete Asset": "Delete Asset",
 
-    "Are you sure you want to delete this asset?": "Apakah Anda yakin ingin menghapus aset ini?",
+    "Are you sure you want to delete this asset?": "Are you sure you want to delete this asset?",
     "Leave Calendar": "Leave Calendar",
-    "Request Leave": "Request Leave"
+    "Request Leave": "Request Leave",
+    "Type Leave": "Type Leave",
+    "Annual Leave": "Annual Leave",
+    "Sick Leave": "Sick Leave",
+    "Emergency Leave": "Emergency Leave",
+    "Start Date": "Start Date",
+    "End Date": "End Date",
+    "End Time": "End Time",
+    "Start Time": "Start Time",
+    "Description": "Description",
+    "Leave type field is required": "Leave type field is required",
+    "Select Leave Type": "Select Leave Type",
+    "Select Leave Date": "Select Leave Date",
+    "Select End Time": "Select End Time",
+    "Select Start Time": "Select Start Time",
+    "Sick Letter": "Sick Letter",
+    "Current Sick Letter": "Current Sick Letter",
+    "Are you sure you want to delete this leave?": "Are you sure you want to delete this leave?",
+
+    "Leave successfully deleted": "Leave successfully deleted",
+    "Leave information successfully updated!": "Leave information successfully updated!",
+    "New leave added successfully!": "New leave added successfully!",
+
+    "Error updating leave information!": "Error updating leave information!",
+    "Error adding new leave!": "Error adding new leave!",
+    "Add Leave": "Add Leave",
+    "Full Day": "Full Day"
 }
