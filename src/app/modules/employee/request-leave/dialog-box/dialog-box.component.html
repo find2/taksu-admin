@@ -23,8 +23,9 @@
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="getLeaveType.errors && getLeaveType.touched">
-                        {{ t("The assign to field is required") }}
+                        {{ t("The leave type field is required") }}
                     </mat-error>
+                    <mat-hint *ngIf="leaveTypeSelect.value === 'annual'">{{ t("Maximum 14 times request annual leave") }}</mat-hint>
                 </mat-form-field>
             </div>
 
@@ -44,8 +45,12 @@
                     </mat-label>
                     <input matInput [matDatepicker]="picker" name="dateRegister" formControlName="startLeaveDate" [min]="minDate" />
                     <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-hint *ngIf="leaveTypeSelect.value === 'annual'" align="end">{{ t("Date must be more than or equal to 14 days from now") }}</mat-hint>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="invalidDateDuration">
+                        {{ t("Cannot make request less than 14 days") }}
+                    </mat-error>
                 </mat-form-field>
             </div>
 
@@ -56,12 +61,13 @@
                         {{ t("Select Leave Date") }}
                     </mat-label>
 
-                    <mat-date-range-input [formGroup]="leavesForm" [rangePicker]="rangePicker">
+                    <mat-date-range-input [formGroup]="leavesForm" [rangePicker]="rangePicker" [min]="minDate">
                         <input matStartDate [min]="minDate" formControlName="startLeaveDate" placeholder="Start date">
-                        <input matEndDate formControlName="endLeaveDate" placeholder="End date">
+                        <input matEndDate [min]="minDate" formControlName="endLeaveDate" placeholder="End date">
                     </mat-date-range-input>
 
                     <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                    <mat-hint *ngIf="leaveTypeSelect.value === 'annual'" align="end">{{ t("Date must be more than or equal to 14 days from now") }}</mat-hint>
                     <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
                     <mat-date-range-picker #rangePicker></mat-date-range-picker>
                     <mat-error *ngIf="
@@ -69,7 +75,10 @@
                             getStartLeaveDate.touched) && (getEndLeaveDate.errors &&
                             getEndLeaveDate.touched)
                         ">
-                        {{ t("The date registered field is required") }}
+                        {{ t("The date field is required") }}
+                    </mat-error>
+                    <mat-error *ngIf="invalidDateDuration">
+                        {{ t("Cannot make request less than 14 days") }}
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -164,6 +173,7 @@
                     <mat-error *ngIf="getLeaveType.errors && getLeaveType.touched">
                         {{ t("Leave type field is required") }}
                     </mat-error>
+                    <mat-hint *ngIf="leaveTypeSelect.value === 'annual'">{{ t("Maximum 14 times request annual leave") }}</mat-hint>
                     </mat-form-field>
             </div>
 
@@ -183,6 +193,7 @@
                     </mat-label>
                     <input matInput [matDatepicker]="picker" name="dateRegister" formControlName="startLeaveDate" [min]="minDate" />
                     <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-hint *ngIf="leaveTypeSelect.value === 'annual'" align="end">{{ t("Date must be more than or equal to 14 days from now") }}</mat-hint>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -195,12 +206,13 @@
                         {{ t("Select Leave Date") }}
                     </mat-label>
 
-                    <mat-date-range-input [formGroup]="leavesForm" [rangePicker]="rangePicker">
+                    <mat-date-range-input [formGroup]="leavesForm" [rangePicker]="rangePicker" [min]="minDate">
                         <input matStartDate [min]="minDate" formControlName="startLeaveDate" placeholder="Start date">
-                        <input matEndDate formControlName="endLeaveDate" placeholder="End date">
+                        <input matEndDate [min]="minDate" formControlName="endLeaveDate" placeholder="End date">
                     </mat-date-range-input>
 
                     <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                    <mat-hint *ngIf="leaveTypeSelect.value === 'annual'" align="end">{{ t("Date must be more than or equal to 14 days from now") }}</mat-hint>
                     <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
                     <mat-date-range-picker #rangePicker></mat-date-range-picker>
                     <mat-error *ngIf="

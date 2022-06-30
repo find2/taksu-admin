@@ -97,5 +97,10 @@
     "Error updating leave information!": "Error updating leave information!",
     "Error adding new leave!": "Error adding new leave!",
     "Add Leave": "Add Leave",
-    "Full Day": "Full Day"
+    "Full Day": "Full Day",
+    "Cannot make request less than 14 days": "Cannot make request less than 14 days",
+    "The leave type field is required": "The leave type field is required",
+    "The date field is required": "The date field is required",
+    "Date must be more than or equal to 14 days from now": "Date must be more than or equal to 14 days from now",
+    "Maximum 14 times request annual leave": "Maximum 14 times request annual leave"
 }

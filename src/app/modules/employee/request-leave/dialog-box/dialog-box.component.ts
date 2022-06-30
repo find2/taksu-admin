@@ -32,6 +32,7 @@ export class DialogBoxComponent implements OnInit {
 
     fullDay: boolean = false;
     minEndLeaveTime = '08:00';
+    invalidDateDuration = false;
 
     leaveTypeData = [
         {
@@ -210,13 +211,28 @@ export class DialogBoxComponent implements OnInit {
     }
 
     doAction(): void {
+        this.invalidDateDuration = false;
         if (this.getEmployeeId === '') {
             console.log('EmployeeId Not Found');
             this.isValidFormSubmitted = false;
             this.closeDialog();
             return;
         }
-        console.log(this.base64textString);
+        console.log(this.getStartLeaveDate.value);
+        const date1 = new Date();
+        const date2 = new Date(this.getStartLeaveDate.value);
+        console.log(date2.getTime(), date1.getTime());
+        const diffDays = Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24));
+        if (diffDays < 14 && this.getLeaveType.value === 'annual') {
+            console.log('Return');
+            this.invalidDateDuration = true;
+            return;
+        }
+        if (this.getTotalLeaves() >= 14 && this.getLeaveType.value === 'annual') {
+            console.log('Return Total');
+            this.invalidDateDuration = true;
+            return;
+        }
         switch (this.action) {
             case 'Add':
                 this.isValidFormSubmitted = false;
@@ -347,5 +363,17 @@ export class DialogBoxComponent implements OnInit {
         this.dialogRef.close({
             event: 'Cancel'
         });
+    }
+
+    getTotalLeaves(): any {
+        const allLeaves = JSON.parse(localStorage.getItem('allLeaves'));
+        const userId = localStorage.getItem('userId') || '';
+        if (userId === '') {
+            return 14;
+        }
+        console.log(userId, allLeaves);
+        const filterLeaves = allLeaves.filter(leave => leave.employeeId === userId && leave.leaveType === 'annual');
+        console.log(filterLeaves.length);
+        return filterLeaves.length;
     }
 }

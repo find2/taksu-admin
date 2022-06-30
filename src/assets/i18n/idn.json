@@ -96,5 +96,10 @@
     "Error updating leave information!": "Terjadi kesalahan saat memperbarui informasi cuti!",
     "Error adding new leave!": "Terjadi kesalahan saat menambahkan cuti baru!",
     "Add Leave": "Tambah Cuti",
-    "Full Day": "Sehari Penuh"
+    "Full Day": "Sehari Penuh",
+    "Cannot make request less than 14 days": "Tidak bisa mengajukan cuti kurang dari 14 hari",
+    "The leave type field is required": "Kolom tipe cuti wajib diisi",
+    "The date field is required": "Kolom tanggal wajib diisi",
+    "Date must be more than or equal to 14 days from now": "Tanggal harus lebih dari atau sama dengan 14 hari dari sekarang",
+    "Maximum 14 times request annual leave": "Maksimal 14 kali mengajukan cuti berencana"
 }
