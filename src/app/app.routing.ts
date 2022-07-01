@@ -10,14 +10,14 @@ import { InitialDataResolver } from 'app/app.resolvers';
 export const appRoutes: Route[] = [
 
     // Redirect empty path to '/employee'
-    {path: '', pathMatch : 'full', redirectTo: 'sign-in'},
+    {path: '', pathMatch : 'full', redirectTo: 'employee'},
 
     // Redirect signed in user to the '/employee'
     //
     // After the user signs in, the sign in page will redirect the user to the 'signed-in-redirect'
     // path. Below is another redirection for that path to redirect the user to the desired
     // location. This is a small convenience to keep all main routes together here on this file.
-    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'sign-in'},
+    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'employee'},
 
     // Auth routes for guests
     {
@@ -76,6 +76,7 @@ export const appRoutes: Route[] = [
         children   : [
             {path: 'employee', loadChildren: () => import('app/modules/admin/employee/employee.module').then(m => m.EmployeeModule)},
             {path: 'assets', loadChildren: () => import('app/modules/admin/assets/assets.module').then(m => m.AssetsModule)},
+            {path: 'leave-calendar', loadChildren: () => import('app/modules/admin/leave-calendar/leave-calendar.module').then(m => m.LeaveCalendarModule)},
         ]
     },
 

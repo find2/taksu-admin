@@ -2,13 +2,6 @@
 import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
-    // {
-    //     id   : 'example',
-    //     title: 'Example',
-    //     type : 'basic',
-    //     icon : 'heroicons_outline:chart-pie',
-    //     link : '/example'
-    // },
     {
         id   : 'employee',
         title: 'Employee',
@@ -23,15 +16,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon : 'heroicons_outline:archive',
         link : '/assets'
     },
+    {
+        id   : 'leaveCalendar',
+        title: 'Leave Calendar',
+        type : 'basic',
+        icon : 'heroicons_outline:calendar',
+        link : '/leave-calendar'
+    },
 ];
 export const employeeNavigation: FuseNavigationItem[] = [
-    // {
-    //     id   : 'example',
-    //     title: 'Example',
-    //     type : 'basic',
-    //     icon : 'heroicons_outline:chart-pie',
-    //     link : '/example'
-    // },
     {
         id   : 'requestLeave',
         title: 'Request Leave',
@@ -41,14 +34,7 @@ export const employeeNavigation: FuseNavigationItem[] = [
     },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
-    // {
-    //     id   : 'example',
-    //     title: 'Example',
-    //     type : 'basic',
-    //     icon : 'heroicons_outline:chart-pie',
-    //     link : '/example'
-    // },
-        {
+    {
         id   : 'employee',
         title: 'Employee',
         type : 'basic',
@@ -64,14 +50,7 @@ export const compactNavigation: FuseNavigationItem[] = [
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
-    // {
-    //     id   : 'example',
-    //     title: 'Example',
-    //     type : 'basic',
-    //     icon : 'heroicons_outline:chart-pie',
-    //     link : '/example'
-    // },
-        {
+    {
         id   : 'employee',
         title: 'Employee',
         type : 'basic',
@@ -84,17 +63,17 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:archive',
         link : '/assets'
+    },
+    {
+        id   : 'leaveCalendar',
+        title: 'Leave Calendar',
+        type : 'basic',
+        icon : 'heroicons_outline:calendar',
+        link : '/leave-calendar'
     },
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
-    // {
-    //     id   : 'example',
-    //     title: 'Example',
-    //     type : 'basic',
-    //     icon : 'heroicons_outline:chart-pie',
-    //     link : '/example'
-    // },
-        {
+    {
         id   : 'employee',
         title: 'Employee',
         type : 'basic',
@@ -107,5 +86,12 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'heroicons_outline:archive',
         link : '/assets'
+    },
+    {
+        id   : 'leaveCalendar',
+        title: 'Leave Calendar',
+        type : 'basic',
+        icon : 'heroicons_outline:calendar',
+        link : '/leave-calendar'
     },
 ];

@@ -163,5 +163,19 @@ export class LanguagesComponent implements OnInit, OnDestroy
                     navComponent.refresh();
                 });
         }
+
+        const leaveCalendarDashboardItem = this._fuseNavigationService.getItem('leaveCalendar', navigation);
+        if ( leaveCalendarDashboardItem )
+        {
+            this._translocoService.selectTranslate('Leave Calendar').pipe(take(1))
+                .subscribe((translation) => {
+
+                    // Set the title
+                    leaveCalendarDashboardItem.title = translation;
+
+                    // Refresh the navigation component
+                    navComponent.refresh();
+                });
+        }
     }
 }
