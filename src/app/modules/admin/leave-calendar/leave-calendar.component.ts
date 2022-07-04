@@ -7,17 +7,13 @@ import {
     TemplateRef,
     ViewChild,
 } from '@angular/core';
-import {
-    CalendarEvent,
-    CalendarView,
-} from 'angular-calendar';
+import { MatDialog } from '@angular/material/dialog';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.types';
-import {
-    isSameDay,
-    isSameMonth,
-} from 'date-fns';
-import { Subject, takeUntil } from 'rxjs';
+import { isSameDay, isSameMonth } from 'date-fns';
+import { Subject, takeUntil, filter } from 'rxjs';
+import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 
 const colors: any = {
     red: {
@@ -47,10 +43,6 @@ export class LeaveCalendarComponent implements OnInit, OnDestroy {
     viewDate: Date = new Date();
     activeDayIsOpen: boolean = false;
     user: any;
-    modalData: {
-        action: string;
-        event: CalendarEvent;
-    };
 
     refresh = new Subject<void>();
 
@@ -58,14 +50,20 @@ export class LeaveCalendarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    constructor(private _userService: UserService, private _changeDetectorRef: ChangeDetectorRef,) {}
+    constructor(
+        private _userService: UserService,
+        private _changeDetectorRef: ChangeDetectorRef,
+        public dialog: MatDialog,
+        private _fuseConfirmationService: FuseConfirmationService
+    ) {}
 
     ngOnInit(): void {
-        this._userService.get()
+        this._userService
+            .get()
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: any) => {
                 this.user = user;
-                this.populateCalendar();
+                this.populateCalendar(JSON.parse(localStorage.getItem('allLeaves')));
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
@@ -92,10 +90,22 @@ export class LeaveCalendarComponent implements OnInit, OnDestroy {
         }
     }
 
-    handleEvent(action: string, event: CalendarEvent): void {
-        this.modalData = { event, action };
-        // this.modal.open(this.modalContent, { size: 'lg' });
-        console.log(this.modalData);
+    handleEvent(event: any): void {
+        const selectedLeave = this.getSelectedLeave(event.leaveId, event.employeeName);
+        console.log(selectedLeave);
+        const dialogRef = this.dialog.open(DialogBoxComponent, {
+            width: '100%',
+            data: selectedLeave,
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {});
+
+        //click outside the dialog and close it
+        dialogRef.backdropClick().subscribe((v) => {
+            dialogRef.close({
+                event: 'Cancel',
+            });
+        });
     }
 
     setView(view: CalendarView): void {
@@ -106,18 +116,58 @@ export class LeaveCalendarComponent implements OnInit, OnDestroy {
         this.activeDayIsOpen = false;
     }
 
-    ngOnDestroy(): void
-    {
+    updateLeaves(rawObj): void {
+        // Open the confirmation dialog
+        const confirmation = this._fuseConfirmationService.open({
+            title: 'Update Leave Information',
+            message: 'Are you sure you want to update this information?',
+            icon: {
+                show: true,
+                name: 'heroicons_outline:information-circle',
+                color: 'info',
+            },
+            actions: {
+                confirm: {
+                    label: 'Edit',
+                    color: 'primary',
+                },
+            },
+        });
+        confirmation.afterClosed().subscribe((result) => {
+            if (result === 'confirmed') {
+                try {
+                    const existingLeaves = JSON.parse(
+                        localStorage.getItem('allLeaves')
+                    );
+                    const index = existingLeaves.findIndex(
+                        x => x.id === rawObj.id
+                    );
+                    existingLeaves[index] = rawObj;
+                    localStorage.setItem(
+                        'allLeaves',
+                        JSON.stringify(existingLeaves)
+                    );
+                    this.populateCalendar(existingLeaves);
+                } catch (err: any) {
+                    console.log(err);
+                }
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
 
-    private populateCalendar(): void {
-        const allLeaves = JSON.parse(localStorage.getItem('allLeaves'));
+    // Populate data leaves in calender view.
+    private populateCalendar(allLeaves: any): void {
         this.events = allLeaves.map((leave) => {
-            // filter nama user
-            const username = this.user.filter(usr => usr.id === leave.employeeId)[0];
+            // filter nama user and assign to display data as empployee name
+            const username = this.user.filter(
+                usr => usr.id === leave.employeeId
+            )[0];
             const leaveType =
                 leave.leaveType === 'annual'
                     ? 'Annual Leave'
@@ -135,6 +185,8 @@ export class LeaveCalendarComponent implements OnInit, OnDestroy {
                     ? '<span class="bg-red-700 text-white text-xs font-bold rounded-md px-2 py-1">Rejected</span>'
                     : '';
             return {
+                leaveId: leave.id,
+                employeeName: username.name,
                 start: new Date(leave.startLeaveDate),
                 end: new Date(leave.endLeaveDate),
                 title: `${leaveType} - ${username.name} ${leaveStatus}`,
@@ -149,5 +201,15 @@ export class LeaveCalendarComponent implements OnInit, OnDestroy {
                 allDay: leave.fullDayLeave,
             };
         });
+    }
+
+    private getSelectedLeave(leaveId: string, employeeName): any {
+        const allLeaves = JSON.parse(localStorage.getItem('allLeaves'));
+        let selectedLeave = allLeaves.filter(leave => leave.id === leaveId)[0];
+        selectedLeave = {
+            ...selectedLeave,
+            employeeName
+        };
+        return selectedLeave;
     }
 }
