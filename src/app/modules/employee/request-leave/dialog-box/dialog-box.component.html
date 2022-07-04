@@ -12,7 +12,7 @@
                     <mat-label>
                         {{ t("Type Leave") }}
                     </mat-label>
-                    <mat-select #leaveTypeSelect formControlName="leaveType" name="type">
+                    <mat-select #leaveTypeSelect formControlName="leaveType" name="type" (selectionChange)="onChangeLeaveType($event.value)">
                         <mat-option value="unassigned" selected>
                             <span>
                                 {{ t("Select Leave Type") }}
@@ -77,7 +77,7 @@
                         ">
                         {{ t("The date field is required") }}
                     </mat-error>
-                    <mat-error *ngIf="invalidDateDuration">
+                    <mat-error *ngIf="getStartLeaveDate.errors?.invalidDateRange && getStartLeaveDate.touched">
                         {{ t("Cannot make request less than 14 days") }}
                     </mat-error>
                 </mat-form-field>
@@ -160,7 +160,7 @@
                             <mat-label>
                                 {{ t("Type Leave") }}
                             </mat-label>
-                            <mat-select #leaveTypeSelect formControlName="leaveType" name="type">
+                            <mat-select #leaveTypeSelect formControlName="leaveType" name="type" (selectionChange)="onChangeLeaveType($event.value)">
                                 <mat-option value="unassigned" selected>
                                     <span>
                                         {{ t("Select Leave Type") }}

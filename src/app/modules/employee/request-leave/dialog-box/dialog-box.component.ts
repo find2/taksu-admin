@@ -1,7 +1,19 @@
-import { Component, ElementRef, Inject, OnInit, Optional, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+    Component,
+    ElementRef,
+    Inject,
+    OnInit,
+    Optional,
+    ViewChild,
+} from '@angular/core';
+import {
+    FormControl,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { validateDateRequest } from '../date-range-validation.directive';
 
 @Component({
     selector: 'app-dialog-box',
@@ -9,7 +21,6 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
     styleUrls: ['./dialog-box.component.scss'],
 })
 export class DialogBoxComponent implements OnInit {
-
     @ViewChild('filePickerInput') filePickerVariable: ElementRef;
 
     action: string;
@@ -101,7 +112,9 @@ export class DialogBoxComponent implements OnInit {
     }
 
     get getFullDayLeave() {
-        this.fullDay = (!this.leavesForm.get('fullDayLeave').value) ? false : true;
+        this.fullDay = !this.leavesForm.get('fullDayLeave').value
+            ? false
+            : true;
         return this.fullDay;
     }
 
@@ -132,13 +145,13 @@ export class DialogBoxComponent implements OnInit {
                     dataObj = {
                         ...dataObj,
                         startLeaveTime: '',
-                        endLeaveTime: ''
+                        endLeaveTime: '',
                     };
                 } else {
                     dataObj = {
                         ...dataObj,
                         startLeaveTime: this.localData.startLeaveTime,
-                        endLeaveTime: this.localData.endLeaveTime
+                        endLeaveTime: this.localData.endLeaveTime,
                     };
                     this.placeHolderEndTime = this.localData.endLeaveTime;
                 }
@@ -173,7 +186,7 @@ export class DialogBoxComponent implements OnInit {
             employeeId: this.employeeId,
             description: this.description,
             status: this.status,
-            picture: this.picture
+            picture: this.picture,
         });
     }
 
@@ -218,17 +231,20 @@ export class DialogBoxComponent implements OnInit {
             this.closeDialog();
             return;
         }
-        console.log(this.getStartLeaveDate.value);
         const date1 = new Date();
         const date2 = new Date(this.getStartLeaveDate.value);
-        console.log(date2.getTime(), date1.getTime());
-        const diffDays = Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24));
+        const diffDays = Math.round(
+            (date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24)
+        );
         if (diffDays < 14 && this.getLeaveType.value === 'annual') {
             console.log('Return');
             this.invalidDateDuration = true;
             return;
         }
-        if (this.getTotalLeaves() >= 14 && this.getLeaveType.value === 'annual') {
+        if (
+            this.getTotalLeaves() >= 14 &&
+            this.getLeaveType.value === 'annual'
+        ) {
             console.log('Return Total');
             this.invalidDateDuration = true;
             return;
@@ -245,7 +261,7 @@ export class DialogBoxComponent implements OnInit {
                         endLeaveTime: '17:00',
                         status: 'unapprove',
                         employeeId: this.getEmployeeId,
-                        picture: this.base64textString
+                        picture: this.base64textString,
                     });
                 } else {
                     this.leavesForm.patchValue({
@@ -254,7 +270,7 @@ export class DialogBoxComponent implements OnInit {
                         endLeaveDate: this.getStartLeaveDate.value,
                         status: 'unapprove',
                         employeeId: this.getEmployeeId,
-                        picture: this.base64textString
+                        picture: this.base64textString,
                     });
                 }
 
@@ -272,11 +288,10 @@ export class DialogBoxComponent implements OnInit {
                         }
                     }
                     console.log(daInvalid);
-
                 } else if (this.leavesForm.valid) {
                     this.isValidFormSubmitted = true;
                     this.localData = {
-                        ...this.leavesForm.value
+                        ...this.leavesForm.value,
                     };
                     console.log('local data imported');
                     let existingLeaves = JSON.parse(
@@ -303,18 +318,18 @@ export class DialogBoxComponent implements OnInit {
                         startLeaveTime: '08:00',
                         endLeaveTime: '17:00',
                         picture:
-                        this.base64textString == null
-                            ? this.localData.picture
-                            : this.base64textString,
+                            this.base64textString == null
+                                ? this.localData.picture
+                                : this.base64textString,
                     });
                 } else {
                     this.leavesForm.patchValue({
                         fullDayLeave: this.getFullDayLeave,
                         endLeaveDate: this.getStartLeaveDate.value,
                         picture:
-                        this.base64textString == null
-                            ? this.localData.picture
-                            : this.base64textString,
+                            this.base64textString == null
+                                ? this.localData.picture
+                                : this.base64textString,
                     });
                 }
 
@@ -332,7 +347,7 @@ export class DialogBoxComponent implements OnInit {
                 } else if (this.leavesForm.valid) {
                     this.isValidFormSubmitted = true;
                     this.localData = {
-                      ...this.leavesForm.value
+                        ...this.leavesForm.value,
                     };
                     let existingLeaves = JSON.parse(
                         localStorage.getItem('allLeaves')
@@ -353,7 +368,7 @@ export class DialogBoxComponent implements OnInit {
             default:
                 console.log('Case Not Found');
                 this.dialogRef.close({
-                  event: 'Cancel'
+                    event: 'Cancel',
                 });
                 break;
         }
@@ -361,7 +376,7 @@ export class DialogBoxComponent implements OnInit {
 
     closeDialog(): void {
         this.dialogRef.close({
-            event: 'Cancel'
+            event: 'Cancel',
         });
     }
 
@@ -371,7 +386,20 @@ export class DialogBoxComponent implements OnInit {
         if (userId === '') {
             return 14;
         }
-        const filterLeaves = allLeaves.filter(leave => leave.employeeId === userId && leave.leaveType === 'annual');
+        const filterLeaves = allLeaves.filter(
+            leave =>
+                leave.employeeId === userId && leave.leaveType === 'annual'
+        );
         return filterLeaves.length;
     }
+
+    onChangeLeaveType(leaveType: string): void {
+        if (leaveType === 'annual') {
+            this.getStartLeaveDate.setValidators([Validators.required, validateDateRequest()]);
+            this.getStartLeaveDate.updateValueAndValidity();
+        } else {
+            this.getStartLeaveDate.setValidators([Validators.required]);
+            this.getStartLeaveDate.updateValueAndValidity();
+        }
+      }
 }
